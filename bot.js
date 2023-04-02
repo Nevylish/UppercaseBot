@@ -5,9 +5,7 @@ const {
     Events,
     EmbedBuilder,
     Colors,
-    ActionRowBuilder,
-    ButtonBuilder,
-    ButtonStyle, WebhookClient,
+    WebhookClient,
     PermissionsBitField
 } = require("discord.js");
 
@@ -59,15 +57,35 @@ class UpperCaseClient extends Client {
                 interaction.reply({embeds: [embed], ephemeral: true});
             })
             .catch((err) => {
-                this.commandError(interaction, "❗ • Error while creating the channel: " + err.message);
+                this.commandError(interaction, `Error while creating the channel: **${err.message}**`);
+            });
+    }
+
+    async renameChannel(interaction) {
+        const channel_selected = interaction?.options?.getChannel('channel');
+        const channel_name = interaction?.options?.getString('name');
+
+        if (!this.isStaff(interaction.member)) {
+            this.commandError(interaction, 'You do not have the necessary permissions to run this command.');
+            return;
+        }
+
+        channel_selected.edit({name: this.replaceUppercase(channel_name)})
+            .then((channel) => {
+                const channelUrl = `https://discord.com/channels/${interaction.guild.id}/${channel.id}`;
+                const embed = new EmbedBuilder({
+                    color: Colors.Green,
+                    description: `🎉 Channel renamed ➜ [Go to channel <#${channel.id}>](${channelUrl}).`
+                });
+
+                interaction.reply({embeds: [embed], ephemeral: true});
+            })
+            .catch((err) => {
+                this.commandError(interaction, `Error while renaming the channel: **${err.message}**`);
             });
     }
 
     // Base
-    commandError(interaction, err) {
-        interaction.reply({content: err, ephemeral: true});
-    }
-
     eventsListeners() {
         this.on(Events.InteractionCreate, (interaction) => {
             if (!interaction.isCommand()) return;
@@ -79,11 +97,14 @@ class UpperCaseClient extends Client {
                     );
                     break;
                 }
+                case "rename-channel": {
+                    this.renameChannel(interaction).catch((err) =>
+                        this.commandError(interaction, err.message)
+                    );
+                    break;
+                }
                 default: {
-                    interaction.reply({
-                        content: "❗ • This command does not exist or has been deleted.",
-                        ephemeral: true,
-                    });
+                    this.commandError(interaction, 'This command does not exist or has been deleted.');
                     break;
                 }
             }
@@ -127,7 +148,7 @@ class UpperCaseClient extends Client {
                     {
                         name: "channel_name",
                         description:
-                            "Name for channel to create, write with Upper Case the channel name",
+                            "Name for channel to create, write with Upper Case",
                         type: 3,
                         required: true,
                     },
@@ -154,6 +175,27 @@ class UpperCaseClient extends Client {
                     }
                 ],
             },
+            {
+                name: "rename-channel",
+                description: "Rename existing channel with UpperCase",
+                type: 1,
+                options: [
+                    {
+                        name: "channel",
+                        description:
+                            "Select channel to rename",
+                        type: 7,
+                        required: true,
+                    },
+                    {
+                        name: "name",
+                        description:
+                            "Name for channel to rename, write with Upper Case",
+                        type: 3,
+                        required: true
+                    }
+                ],
+            },
         ];
 
         this.application.commands
@@ -162,6 +204,13 @@ class UpperCaseClient extends Client {
     }
 
     // Functions
+    commandError(interaction, err) {
+        interaction.reply({
+            embeds: [new EmbedBuilder({color: Colors.Red, description: `❗ • ${err}`})],
+            ephemeral: true
+        });
+    }
+
     replaceUppercase(inputString) {
         const upper = [
             "𝖠", "𝖡", "𝖢", "𝖣", "𝖤", "𝖥", "𝖦", "𝖧", "𝖨", "𝖩", "𝖪", "𝖫", "𝖬", "𝖭", "𝖮", "𝖯", "𝖰", "𝖱", "𝖲", "𝖳", "𝖴", "𝖵", "𝖶", "𝖷", "𝖸", "𝖹",
