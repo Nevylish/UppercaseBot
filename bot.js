@@ -1,5 +1,5 @@
 /*
- * UppercaseBot, finally use upper case letters for your channel names.
+ * UppercaseBot, finally use uppercase letters for your channel names.
  * Copyright (c) 2023 Nevylish <bonjour@nevylish.fr>
  *
  *  This program is free software: you can redistribute it and/or modify
