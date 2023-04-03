@@ -312,7 +312,7 @@ class UpperCaseClient extends Client {
     }
 
     /**
-     * Replace real uppercase letters by alternative uppercase letters.
+     * Replace normal uppercase letters by alternative uppercase letters.
      * @param {string} input
      * @returns {string}
      */
