@@ -32,6 +32,30 @@ const {
 class UpperCaseClient extends Client {
     // permissionsInteger = 277025442833;
 
+    locales = {
+        channel_name_required: {
+            fr: "Un nom pour le salon est requis."
+        },
+        missing_permissions: {
+            fr: "Tu n'as pas les permissions nécéssaires pour utiliser cette commande."
+        },
+        channel_created: {
+            fr: (channelId, channelUrl) => `🎉 Salon crée ➜ [Aller au salon <#${channelId}>](${channelUrl})\n\nTu peux bouger le salon où tu veux, le renommer, changer ses permissions, son type, etc...`
+        },
+        error_while_creating_channel: {
+            fr: 'Erreur lors de la création du salon: '
+        },
+        channel_renamed: {
+            fr: (channelId, channelUrl) => `🎉 Salon renommé ➜ [Aller au salon <#${channelId}>](${channelUrl})`
+        },
+        error_while_renaming_channel: {
+            fr: 'Erreur lors du changement de nom du salon: '
+        },
+        command_not_found: {
+            fr: "Cette commande n'existe pas ou a été supprimée."
+        }
+    }
+
     constructor(token) {
         super({
             intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildInvites],
@@ -57,13 +81,15 @@ class UpperCaseClient extends Client {
         const channel_name = interaction?.options?.getString("channel_name");
         let channel_type = interaction?.options?.getString("channel_type");
 
-        if (!channel_name) throw new Error("A channel name is required.");
+        if (!channel_name) throw new Error(this.locales.channel_name_required[interaction.locale] ?? "A channel name is required.");
         if (!channel_type) channel_type = ChannelType.GuildText;
 
         if (!this.isStaff(interaction.member)) {
-            this.commandError(interaction, 'You do not have the necessary permissions to run this command.');
+            this.commandError(interaction, this.locales.missing_permissions[interaction.locale] ?? 'You do not have the necessary permissions to run this command.');
             return;
         }
+
+        await interaction.deferReply({ephemeral: true});
 
         interaction.guild.channels
             .create({
@@ -75,13 +101,13 @@ class UpperCaseClient extends Client {
                 const channelUrl = `https://discord.com/channels/${interaction.guild.id}/${channel.id}`;
                 const embed = new EmbedBuilder({
                     color: Colors.Green,
-                    description: `🎉 Channel created ➜ [Go to channel <#${channel.id}>](${channelUrl})\n\nYou can move the channel wherever you want, even rename it, change permissions, type, etc...`
+                    description: this.locales.channel_created[interaction.locale](channel.id, channelUrl) ?? `🎉 Channel created ➜ [Go to channel <#${channel.id}>](${channelUrl})\n\nYou can move the channel wherever you want, even rename it, change permissions, type, etc...`
                 });
 
-                interaction.reply({embeds: [embed], ephemeral: true});
+                interaction.editReply({embeds: [embed]});
             })
             .catch((err) => {
-                this.commandError(interaction, `Error while creating the channel: **${err.message}**`);
+                this.commandError(interaction, (this.locales.error_while_creating_channel[interaction.locale] ?? 'Error while creating the channel: ') + `**${err.message}**`);
             });
     }
 
@@ -95,22 +121,24 @@ class UpperCaseClient extends Client {
         const channel_name = interaction?.options?.getString('new_name');
 
         if (!this.isStaff(interaction.member)) {
-            this.commandError(interaction, 'You do not have the necessary permissions to run this command.');
+            this.commandError(interaction, this.locales.missing_permissions[interaction.locale] ?? 'You do not have the necessary permissions to run this command.');
             return;
         }
+
+        await interaction.deferReply({ephemeral: true});
 
         channel_selected.edit({name: this.replaceUppercase(channel_name)})
             .then((channel) => {
                 const channelUrl = `https://discord.com/channels/${interaction.guild.id}/${channel.id}`;
                 const embed = new EmbedBuilder({
                     color: Colors.Green,
-                    description: `🎉 Channel renamed ➜ [Go to channel <#${channel.id}>](${channelUrl}).`
+                    description: this.locales.channel_renamed[interaction.locale](channel.id, channelUrl) ?? `🎉 Channel renamed ➜ [Go to channel <#${channel.id}>](${channelUrl}).`
                 });
 
-                interaction.reply({embeds: [embed], ephemeral: true});
+                interaction.editReply({embeds: [embed]});
             })
             .catch((err) => {
-                this.commandError(interaction, `Error while renaming the channel: **${err.message}**`);
+                this.commandError(interaction, (this.locales.error_while_renaming_channel[interaction.locale] ?? `Error while renaming the channel: `) + `**${err.message}**`);
             });
     }
 
@@ -132,7 +160,7 @@ class UpperCaseClient extends Client {
                     break;
                 }
                 default: {
-                    this.commandError(interaction, 'This command does not exist or has been deleted.');
+                    this.commandError(interaction, this.locales.command_not_found[interaction.locale] ?? 'This command does not exist or has been deleted.');
                     break;
                 }
             }
@@ -270,10 +298,17 @@ class UpperCaseClient extends Client {
      * @returns {void}
      */
     commandError(interaction, err) {
-        interaction.reply({
-            embeds: [new EmbedBuilder({color: Colors.Red, description: `❗ • ${err}`})],
-            ephemeral: true
-        });
+        if (interaction.deferred) {
+            interaction.editReply({
+                embeds: [new EmbedBuilder({color: Colors.Red, description: `❗ • ${err}`})],
+            });
+        } else {
+            interaction.reply({
+                embeds: [new EmbedBuilder({color: Colors.Red, description: `❗ • ${err}`})],
+                ephemeral: true
+            });
+        }
+
     }
 
     /**
