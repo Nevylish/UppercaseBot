@@ -40,7 +40,7 @@ class UpperCaseClient extends Client {
             fr: "Tu n'as pas les permissions nécéssaires pour utiliser cette commande."
         },
         channel_created: {
-            fr: (channelId, channelUrl) => `🎉 Salon crée ➜ [Aller au salon <#${channelId}>](${channelUrl})\n\nTu peux bouger le salon où tu veux, le renommer, changer ses permissions, son type, etc...`
+            fr: (channelId, channelUrl) => `🎉 Salon créé ➜ [Aller au salon <#${channelId}>](${channelUrl})\n\nTu peux déplacer le salon où tu le souhaites, le renommer, changer ses permissions, son type, etc...`
         },
         error_while_creating_channel: {
             fr: 'Erreur lors de la création du salon: '
@@ -184,7 +184,7 @@ class UpperCaseClient extends Client {
 
             if (guild.splash) embed.setImage(guild.splashURL({size: 1024}));
             if (guild.banner) embed.setThumbnail(guild.bannerURL({size: 512}));
-            webhookClient.send({
+            await webhookClient.send({
                 username: this.user.username,
                 avatarURL: this.user.avatarURL({size: 256}),
                 embeds: [embed]
@@ -312,7 +312,7 @@ class UpperCaseClient extends Client {
     }
 
     /**
-     * Replace normal uppercase letters by alternative uppercase letters.
+     * Replace normal uppercase letters by alternative uppercase letters
      * @param {string} input
      * @returns {string}
      */
