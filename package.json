@@ -1,6 +1,12 @@
 {
-  "name": "uccbot",
+  "name": "uppercase-bot",
+  "description": "Finally use upper case letters for your channel names.",
   "version": "1.0.0",
+  "author": {
+    "name": "Nevylish",
+    "email": "bonjour@nevylish.fr",
+    "url": "https://nevylish.fr/"
+  },
   "dependencies": {
     "discord.js": "^14.7.1"
   }
