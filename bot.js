@@ -26,7 +26,7 @@ const {
     GuildMember,
     Colors,
     WebhookClient,
-    PermissionsBitField
+    PermissionsBitField, ActionRowBuilder, ButtonBuilder, ButtonStyle
 } = require("discord.js");
 
 class UpperCaseClient extends Client {
@@ -53,6 +53,9 @@ class UpperCaseClient extends Client {
         },
         command_not_found: {
             fr: "Cette commande n'existe pas ou a été supprimée."
+        },
+        vote_topgg_button: {
+            fr: "Vote sur Top.gg (stp stp stp <3)"
         }
     }
 
@@ -104,7 +107,7 @@ class UpperCaseClient extends Client {
                     description: this.locales.channel_created[interaction.locale](channel.id, channelUrl) ?? `🎉 Channel created ➜ [Go to channel <#${channel.id}>](${channelUrl})\n\nYou can move the channel wherever you want, even rename it, change permissions, type, etc...`
                 });
 
-                interaction.editReply({embeds: [embed]});
+                interaction.editReply({embeds: [embed], components: [this.vote_topgg_button(interaction)]});
             })
             .catch((err) => {
                 this.commandError(interaction, (this.locales.error_while_creating_channel[interaction.locale] ?? 'Error while creating the channel: ') + `**${err.message}**`);
@@ -135,7 +138,7 @@ class UpperCaseClient extends Client {
                     description: this.locales.channel_renamed[interaction.locale](channel.id, channelUrl) ?? `🎉 Channel renamed ➜ [Go to channel <#${channel.id}>](${channelUrl}).`
                 });
 
-                interaction.editReply({embeds: [embed]});
+                interaction.editReply({embeds: [embed], components: [this.vote_topgg_button(interaction)]});
             })
             .catch((err) => {
                 this.commandError(interaction, (this.locales.error_while_renaming_channel[interaction.locale] ?? `Error while renaming the channel: `) + `**${err.message}**`);
@@ -308,7 +311,6 @@ class UpperCaseClient extends Client {
                 ephemeral: true
             });
         }
-
     }
 
     /**
@@ -341,6 +343,21 @@ class UpperCaseClient extends Client {
      * @returns {boolean}
      */
     isStaff = (member) => [PermissionsBitField.Flags.Administrator, PermissionsBitField.Flags.ManageChannels, PermissionsBitField.Flags.BanMembers, PermissionsBitField.Flags.ManageGuild].some(p => member.permissions.has(p, true));
+
+    /** Return ready Top.gg vote button component for embeds
+     * @param {CommandInteraction} interaction
+     * @returns {ActionRowBuilder}
+     */
+    vote_topgg_button = (interaction) => {
+        return new ActionRowBuilder()
+            .addComponents(
+                new ButtonBuilder()
+                    .setStyle(ButtonStyle.Link)
+                    .setLabel(this.locales.vote_topgg_button[interaction.locale] ?? 'Vote on Top.gg (please <3)')
+                    .setEmoji('<:topgg:1093959259890389092>')
+                    .setURL('https://top.gg/bot/1072283043739467807/vote')
+            )
+    }
 }
 
 module.exports = UpperCaseClient;
