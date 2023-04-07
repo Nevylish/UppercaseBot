@@ -17,16 +17,19 @@
  */
 
 const {
+    ActionRowBuilder,
+    ButtonBuilder,
+    ButtonStyle,
     ChannelType,
     Client,
-    GatewayIntentBits,
-    Events,
-    EmbedBuilder,
-    CommandInteraction,
-    GuildMember,
     Colors,
-    WebhookClient,
-    PermissionsBitField, ActionRowBuilder, ButtonBuilder, ButtonStyle
+    CommandInteraction,
+    EmbedBuilder,
+    Events,
+    GatewayIntentBits,
+    GuildMember,
+    PermissionsBitField,
+    WebhookClient
 } = require("discord.js");
 
 class UpperCaseClient extends Client {
