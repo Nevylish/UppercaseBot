@@ -33,32 +33,97 @@ const {
 } = require("discord.js");
 
 class UpperCaseClient extends Client {
-    // permissionsInteger = 277025442833;
+    /* permissionsInteger = 277025442833; */
 
+    /** Locales (default: english) */
     locales = {
         channel_name_required: {
-            fr: "Un nom pour le salon est requis."
+            default: "A channel name is required.",
+            fr: "Un nom pour le salon est requis.",
+            es: "Se requiere un nombre para el canal.",
+            "pt-BR": "É necessário um nome para o canal.",
+            de: "Ein Name für den Kanal ist erforderlich.",
+            it: "È richiesto un nome per il canale.",
+            ru: "Требуется имя для канала.",
+            tr: "Kanal için bir isim gereklidir.",
+            ko: "채널의 이름이 필요합니다."
         },
         missing_permissions: {
-            fr: "Tu n'as pas les permissions nécéssaires pour utiliser cette commande."
+            default: "You do not have the necessary permissions to run this command.",
+            fr: "Tu n'as pas les permissions nécéssaires pour utiliser cette commande.",
+            es: "No tienes los permisos necesarios para usar este comando.",
+            "pt-BR": "Você não possui as permissões necessárias para usar este comando.",
+            de: "Du hast nicht die erforderlichen Berechtigungen, um diesen Befehl zu verwenden.",
+            it: "Non hai le autorizzazioni necessarie per utilizzare questo comando.",
+            ru: "У вас нет необходимых разрешений для использования этой команды.",
+            tr: "Bu komutu kullanmak için gerekli izinlere sahip değilsiniz.",
+            ko: "이 명령어를 사용할 수 있는 필요한 권한이 없습니다."
         },
         channel_created: {
-            fr: (channelId, channelUrl) => `🎉 Salon créé ➜ [Aller au salon <#${channelId}>](${channelUrl})\n\nTu peux déplacer le salon où tu le souhaites, le renommer, changer ses permissions, son type, etc...`
+            default: (channelId, channelUrl) => `🎉 Channel created ➜ [Go to channel <#${channelId}>](${channelUrl})\n\nYou can move the channel wherever you want, even rename it, change permissions, type, etc...`,
+            fr: (channelId, channelUrl) => `🎉 Salon créé ➜ [Aller au salon <#${channelId}>](${channelUrl})\n\nTu peux déplacer le salon où tu le souhaites, le renommer, changer ses permissions, son type, etc...`,
+            es: (channelId, channelUrl) => `🎉 Canal creado ➜ [Ir al canal <#${channelId}>](${channelUrl})\n\nPuedes mover el canal donde quieras, cambiarle el nombre, modificar sus permisos, tipo, etc...,`,
+            "pt-BR": (channelId, channelUrl) => `🎉 Canal criado ➜ [Ir para o canal <#${channelId}>](${channelUrl})\n\nVocê pode mover o canal para onde quiser, renomeá-lo, alterar suas permissões, tipo, etc...,`,
+            de: (channelId, channelUrl) => `🎉 Kanal erstellt ➜ [Zum Kanal gehen <#${channelId}>](${channelUrl})\n\nDu kannst den Kanal verschieben, umbenennen, Berechtigungen ändern, Typ usw...`,
+            it: (channelId, channelUrl) => `🎉 Canale creato ➜ [Vai al canale <#${channelId}>](${channelUrl})\n\nPuoi spostare il canale dove vuoi, rinominarlo, cambiare le autorizzazioni, il tipo, ecc...`,
+            ru: (channelId, channelUrl) => `🎉 Канал создан ➜ [Перейти к каналу <#${channelId}>](${channelUrl})\n\nВы можете переместить канал в любое место, переименовать`,
+            tr: (channelId, channelUrl) => `🎉 Kanal oluşturuldu ➜ [Kanala git <#${channelId}>](${channelUrl})\n\nDilediğiniz yere kanalı taşıyabilir, adını değiştirebilir, izinlerini, türünü vb. değiştirebilirsiniz...`,
+            ko: (channelId, channelUrl) => `🎉 채널이 생성되었습니다 ➜ 채널로 이동 <#${channelId}>](${channelUrl})\n\n채널을 원하는 위치로 이동하고, 이름을 변경하고, 권한과 유형을 변경할 수 있습니다...`
         },
         error_while_creating_channel: {
-            fr: 'Erreur lors de la création du salon: '
+            default: 'Error while creating the channel: ',
+            fr: 'Erreur lors de la création du salon: ',
+            es: 'Error al crear el canal: ',
+            "pt-BR": 'Erro ao criar o canal: ',
+            de: 'Fehler beim Erstellen des Kanals: ',
+            it: 'Errore durante la creazione del canale: ',
+            ru: "Произошла ошибка при создании канала.",
+            tr: "Kanal oluşturulurken bir hata oluştu.",
+            ko: "채널을 생성하는 중에 오류가 발생했습니다."
         },
         channel_renamed: {
-            fr: (channelId, channelUrl) => `🎉 Salon renommé ➜ [Aller au salon <#${channelId}>](${channelUrl})`
+            default: (channelId, channelUrl) => `🎉 Channel renamed ➜ [Go to channel <#${channelId}>](${channelUrl}).`,
+            fr: (channelId, channelUrl) => `🎉 Salon renommé ➜ [Aller au salon <#${channelId}>](${channelUrl})`,
+            es: (channelId, channelUrl) => `🎉 Canal renombrado ➜ [Ir al canal <#${channelId}>](${channelUrl})`,
+            "pt-BR": (channelId, channelUrl) => `🎉 Canal renomeado ➜ [Ir para o canal <#${channelId}>](${channelUrl})`,
+            de: (channelId, channelUrl) => `🎉 Kanal umbenannt ➜ [Zum Kanal gehen <#${channelId}>](${channelUrl})`,
+            it: (channelId, channelUrl) => `🎉 Canale rinominato ➜ [Vai al canale <#${channelId}>](${channelUrl})`,
+            ru: (channelId, channelUrl) => `🎉 Канал переименован ➜ [Перейти к каналу <#${channelId}>](${channelUrl})`,
+            tr: (channelId, channelUrl) => `🎉 Kanal yeniden adlandırıldı ➜ [Kanala git <#${channelId}>](${channelUrl})`,
+            ko: (channelId, channelUrl) => `🎉 채널 이름 변경 ➜ [채널로 이동 <#${channelId}>](${channelUrl})`
         },
         error_while_renaming_channel: {
-            fr: 'Erreur lors du changement de nom du salon: '
+            default: 'Error while renaming the channel: ',
+            fr: 'Erreur lors du changement de nom du salon: ',
+            es: 'Error al cambiar el nombre del canal: ',
+            "pt-BR": 'Erro ao renomear o canal: ',
+            de: 'Fehler beim Umbenennen des Kanals: ',
+            it: 'Errore durante la rinomina del canale: ',
+            ru: 'Произошла ошибка при переименовании канала.',
+            tr: 'Kanal yeniden adlandırılırken bir hata oluştu.',
+            ko: '채널 이름을 변경하는 중에 오류가 발생했습니다.'
         },
         command_not_found: {
-            fr: "Cette commande n'existe pas ou a été supprimée."
+            default: "This command does not exist or has been deleted.",
+            fr: "Cette commande n'existe pas ou a été supprimée.",
+            es: "Este comando no existe o ha sido eliminado.",
+            "pt-BR": "Este comando não existe ou foi excluído.",
+            de: "Dieser Befehl existiert nicht oder wurde gelöscht.",
+            it: "Questo comando non esiste o è stato eliminato.",
+            ru: "Эта команда не существует или была удалена.",
+            tr: "Bu komut mevcut değil veya silinmiş.",
+            ko: "이 명령어가 존재하지 않거나 삭제되었습니다."
         },
         vote_topgg_button: {
-            fr: "Vote sur Top.gg (stp stp stp <3)"
+            default: 'Vote on Top.gg (please <3)',
+            fr: "Vote sur Top.gg (stp stp stp <3)",
+            es: "Vota en Top.gg (por favor <3)",
+            "pt-BR": "Vote no Top.gg (por favor <3)",
+            de: "Stimme auf Top.gg ab (bitte <3)",
+            it: "Vota su Top.gg (per favore per favore per favore <3)",
+            ru: "Проголосуй на Top.gg (пожалуйста, пожалуйста, пожалуйста <3)",
+            tr: "Top.gg'de oy ver (lütfen lütfen lütfen <3)",
+            ko: "Top.gg에서 투표하기 (부탁드려요 부탁드려요 부탁드려요 <3)"
         }
     }
 
@@ -67,14 +132,14 @@ class UpperCaseClient extends Client {
             intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildInvites],
             allowedMentions: {
                 parse: ["users"],
-                repliedUser: false,
+                repliedUser: true,
             },
             partials: ["CHANNEL", "MESSAGE", "USER"],
         });
 
         super.login(token).then(() => {
             this.eventsListeners();
-            this.registerCommands();
+            //this.registerCommands();
         });
     }
 
@@ -87,11 +152,11 @@ class UpperCaseClient extends Client {
         const channel_name = interaction?.options?.getString("channel_name");
         let channel_type = interaction?.options?.getString("channel_type");
 
-        if (!channel_name) throw new Error(this.locales.channel_name_required[interaction.locale] ?? "A channel name is required.");
+        if (!channel_name) throw new Error(this.locales.channel_name_required[interaction.locale ?? "default"]);
         if (!channel_type) channel_type = ChannelType.GuildText;
 
         if (!this.isStaff(interaction.member)) {
-            this.commandError(interaction, this.locales.missing_permissions[interaction.locale] ?? 'You do not have the necessary permissions to run this command.');
+            this.commandError(interaction, this.locales.missing_permissions[interaction.locale ?? "default"]);
             return;
         }
 
@@ -107,13 +172,13 @@ class UpperCaseClient extends Client {
                 const channelUrl = `https://discord.com/channels/${interaction.guild.id}/${channel.id}`;
                 const embed = new EmbedBuilder({
                     color: Colors.Green,
-                    description: this.locales.channel_created[interaction.locale](channel.id, channelUrl) ?? `🎉 Channel created ➜ [Go to channel <#${channel.id}>](${channelUrl})\n\nYou can move the channel wherever you want, even rename it, change permissions, type, etc...`
+                    description: this.locales.channel_created[interaction.locale ?? "default"](channel.id, channelUrl)
                 });
 
                 interaction.editReply({embeds: [embed], components: [this.vote_topgg_button(interaction)]});
             })
             .catch((err) => {
-                this.commandError(interaction, (this.locales.error_while_creating_channel[interaction.locale] ?? 'Error while creating the channel: ') + `**${err.message}**`);
+                this.commandError(interaction, this.locales.error_while_creating_channel[interaction.locale ?? "default"] + `**${err.message}**`);
             });
     }
 
@@ -127,7 +192,7 @@ class UpperCaseClient extends Client {
         const channel_name = interaction?.options?.getString('new_name');
 
         if (!this.isStaff(interaction.member)) {
-            this.commandError(interaction, this.locales.missing_permissions[interaction.locale] ?? 'You do not have the necessary permissions to run this command.');
+            this.commandError(interaction, this.locales.missing_permissions[interaction.locale ?? "default"]);
             return;
         }
 
@@ -138,13 +203,13 @@ class UpperCaseClient extends Client {
                 const channelUrl = `https://discord.com/channels/${interaction.guild.id}/${channel.id}`;
                 const embed = new EmbedBuilder({
                     color: Colors.Green,
-                    description: this.locales.channel_renamed[interaction.locale](channel.id, channelUrl) ?? `🎉 Channel renamed ➜ [Go to channel <#${channel.id}>](${channelUrl}).`
+                    description: this.locales.channel_renamed[interaction.locale ?? "default"](channel.id, channelUrl)
                 });
 
                 interaction.editReply({embeds: [embed], components: [this.vote_topgg_button(interaction)]});
             })
             .catch((err) => {
-                this.commandError(interaction, (this.locales.error_while_renaming_channel[interaction.locale] ?? `Error while renaming the channel: `) + `**${err.message}**`);
+                this.commandError(interaction, this.locales.error_while_renaming_channel[interaction.locale ?? "default"] + `**${err.message}**`);
             });
     }
 
@@ -166,7 +231,7 @@ class UpperCaseClient extends Client {
                     break;
                 }
                 default: {
-                    this.commandError(interaction, this.locales.command_not_found[interaction.locale] ?? 'This command does not exist or has been deleted.');
+                    this.commandError(interaction, this.locales.command_not_found[interaction.locale ?? "default"]);
                     break;
                 }
             }
@@ -202,28 +267,57 @@ class UpperCaseClient extends Client {
      * Globally register slash commands
      * @returns {void}
      */
+    // TODO: Fix error, since translations added
     registerCommands() {
         this.application.commands
             .set([
                 {
                     name: "create-channel",
                     nameLocalizations: {
-                        fr: 'créer-un-salon'
+                        fr: 'créer-un-salon',
+                        es: 'crear-un-canal',
+                        "pt-BR": 'criar-um-canal',
+                        de: 'kanal-erstellen',
+                        it: 'crea-un-canale',
+                        ru: 'создать-канал',
+                        tr: 'kanal-oluştur',
+                        ko: '채널-생성'
                     },
                     description: "Create channel with UpperCase letters",
                     descriptionLocalizations: {
-                        fr: 'Créer un salon avec des lettres majuscules alternatives'
+                        fr: 'Créer un salon avec des lettres majuscules alternatives',
+                        es: 'Crear un canal con letras en mayúsculas alternas',
+                        "pt-BR": 'Criar um canal com letras em maiúsculas alternadas',
+                        de: 'Kanal mit Großbuchstaben erstellen',
+                        it: 'Crea un canale con lettere in maiuscolo alternative',
+                        ru: 'Создать канал с буквами в верхнем регистре',
+                        tr: 'Büyük harfli harflerle kanal oluştur',
+                        ko: '대문자 알파벳을 사용하여 채널 생성'
                     },
                     type: 1,
                     options: [
                         {
                             name: "channel_name",
                             nameLocalizations: {
-                                fr: 'nom_du_salon'
+                                fr: 'nom_du_salon',
+                                es: 'nombre_del_canal',
+                                "pt-BR": 'nome_do_canal',
+                                de: 'kanalname',
+                                it: 'nome_del_canale',
+                                ru: 'имя_канала',
+                                tr: 'kanal_adı',
+                                ko: '채널_이름'
                             },
                             description: "Name for channel to create, write with uppercase, they will be replaced by alt uppercase letters",
                             descriptionLocalizations: {
-                                fr: 'Nom du salon à créer, utilise des lettres maj, elles seront remplacées par des maj alternatives'
+                                fr: 'Nom du salon à créer, utilise des lettres maj, elles seront remplacées par des maj alternatives',
+                                es: 'Nombre del canal a crear, escriba en mayúsculas, se reemplazarán por letras mayúsculas alt',
+                                "pt-BR": 'Nome do canal para criar, escreva em letras maiúsculas',
+                                de: 'Name für zu erstellenden Kanal, schreibe mit Großbuchstaben',
+                                it: 'Nome del canale da creare, scrivi in maiuscolo',
+                                ru: 'Имя канала для создания, напишите заглавные буквы',
+                                tr: 'Oluşturulacak kanalın adı, büyük harfle yazın, alternatif büyük harflerle değiştirilecektir',
+                                ko: '생성할 채널의 이름, 대문자로 작성하고, 대문자 대체 문자로 교체됩니다'
                             },
                             type: 3,
                             required: true,
@@ -231,11 +325,24 @@ class UpperCaseClient extends Client {
                         {
                             name: "channel_type",
                             nameLocalizations: {
-                                fr: 'type_de_salon'
+                                fr: 'type_de_salon',
+                                es: 'tipo_de_canal',
+                                "pt-BR": 'tipo_de_canal',
+                                it: 'tipo_di_canale',
+                                ru: 'тип_канала',
+                                tr: 'kanal_türü',
+                                ko: '채널_유형'
                             },
                             description: "Type for channel to create, Text, Forum or Announcement. Empty: Text",
                             descriptionLocalizations: {
-                                fr: 'Type de salon à créer, Textuel, Forum ou Annonces. Vide: Textuel'
+                                fr: 'Type de salon à créer, Textuel, Forum ou Annonces. Vide: Textuel',
+                                es: 'Tipo de canal a crear',
+                                "pt-BR": 'Tipo de canal para criar',
+                                de: 'Typ des zu erstellenden Kanals',
+                                it: 'Tipo di canale da creare',
+                                ru: 'Тип создаваемого канала',
+                                tr: 'Oluşturulacak kanalın türü',
+                                ko: '생성할 채널의 유형'
                             },
                             type: 3,
                             choices: [
@@ -259,22 +366,50 @@ class UpperCaseClient extends Client {
                 {
                     name: "rename-channel",
                     nameLocalizations: {
-                        fr: 'renommer-un-salon'
+                        fr: 'renommer-un-salon',
+                        es: 'renombrar-canal',
+                        "pt-BR": 'renomear-canal',
+                        de: 'Kanal-umbenennen',
+                        it: 'rinomina-canale',
+                        ru: 'переименовать-канал',
+                        tr: 'kanalı-yeniden-adlandır',
+                        ko: '채널-이름-변경'
                     },
                     description: "Rename existing channel with UpperCase letters",
                     descriptionLocalizations: {
-                        fr: 'Renommer un salon existant avec des lettres majuscules alternatives'
+                        fr: 'Renommer un salon existant avec des lettres majuscules alternatives',
+                        es: 'Renombrar un canal existente con letras en mayúscula alternativas',
+                        "pt-BR": 'Renomear um canal existente com letras maiúsculas alternativas',
+                        de: 'Vorhandenen Kanal mit Großbuchstaben umbenennen',
+                        it: 'Rinomina il canale esistente con lettere maiuscole alternative',
+                        ru: 'Переименовать существующий канал с использованием альтернативных прописных букв',
+                        tr: 'Varolan kanalı büyük harfli harflerle yeniden adlandır',
+                        ko: '기존 채널의 이름을 대문자 대체로 변경'
                     },
                     type: 1,
                     options: [
                         {
                             name: "channel",
                             nameLocalizations: {
-                                fr: 'salon'
+                                fr: 'salon',
+                                es: 'canal',
+                                "pt-BR": 'canal',
+                                de: 'Kanal',
+                                it: 'canale',
+                                ru: 'канал',
+                                tr: 'kanal',
+                                ko: '채널'
                             },
                             description: "Select channel to rename",
                             descriptionLocalizations: {
-                                fr: 'Sélectionne le salon à renommer'
+                                fr: 'Sélectionne le salon à renommer',
+                                es: 'Selecciona el canal para renombrar',
+                                "pt-BR": 'Selecione o canal para renomear',
+                                de: 'Wähle den zu umbenennenden Kanal aus',
+                                it: 'Seleziona il canale da rinominare',
+                                ru: 'Выберите канал для переименования',
+                                tr: 'Yeniden adlandırmak için kanal seçin',
+                                ko: '이름을 변경할 채널을 선택하세요'
                             },
                             type: 7,
                             required: true,
@@ -282,11 +417,25 @@ class UpperCaseClient extends Client {
                         {
                             name: "new_name",
                             nameLocalizations: {
-                                fr: 'nouveau_nom'
+                                fr: 'nouveau_nom',
+                                es: 'nuevo_nombre',
+                                "pt-BR": 'novo_nome',
+                                de: 'neuer_name',
+                                it: 'nuovo_nome',
+                                ru: 'новое_имя',
+                                tr: 'yeni_ad',
+                                ko: '새_이름'
                             },
                             description: "New name for selected channel, write with uppercase, they will be replaced by alt uppercase letters",
                             descriptionLocalizations: {
-                                fr: 'Nouveau nom pour le salon, utilise des lettres maj, elles seront remplacées par des maj alternatives'
+                                fr: 'Nouveau nom pour le salon, utilise des lettres maj, elles seront remplacées par des maj alternatives',
+                                es: 'Nuevo nombre para el canal seleccionado, escríbelo conletas mayúsculas',
+                                "pt-BR": 'Novo nome para o canal selecionado, escreva com letras maiúsculas',
+                                de: 'Neuer Name für den ausgewählten Kanal, schreibe ihn mit Großbuchstaben',
+                                it: 'Nuovo nome per il canale selezionato, scrivi in maiuscolo',
+                                ru: 'Новое имя для выбранного канала, пишите заглавные буквы',
+                                tr: 'Seçilen kanal için yeni ad, büyük harflerle yazın',
+                                ko: '선택한 채널에 대한 새 이름을 대문자로 작성하세요. 대문자 대체로 교체됩니다'
                             },
                             type: 3,
                             required: true
@@ -356,7 +505,7 @@ class UpperCaseClient extends Client {
             .addComponents(
                 new ButtonBuilder()
                     .setStyle(ButtonStyle.Link)
-                    .setLabel(this.locales.vote_topgg_button[interaction.locale] ?? 'Vote on Top.gg (please <3)')
+                    .setLabel(this.locales.vote_topgg_button[interaction.locale ?? "default"])
                     .setEmoji('<:topgg:1093959259890389092>')
                     .setURL('https://top.gg/bot/1072283043739467807/vote')
             )
