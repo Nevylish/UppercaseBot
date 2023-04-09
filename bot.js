@@ -68,7 +68,7 @@ class UpperCaseClient extends Client {
             it: (channelId, channelUrl) => `🎉 Canale creato ➜ [Vai al canale <#${channelId}>](${channelUrl})\n\nPuoi spostare il canale dove vuoi, rinominarlo, cambiare le autorizzazioni, il tipo, ecc...`,
             ru: (channelId, channelUrl) => `🎉 Канал создан ➜ [Перейти к каналу <#${channelId}>](${channelUrl})\n\nВы можете переместить канал в любое место, переименовать`,
             tr: (channelId, channelUrl) => `🎉 Kanal oluşturuldu ➜ [Kanala git <#${channelId}>](${channelUrl})\n\nDilediğiniz yere kanalı taşıyabilir, adını değiştirebilir, izinlerini, türünü vb. değiştirebilirsiniz...`,
-            ko: (channelId, channelUrl) => `🎉 채널이 생성되었습니다 ➜ 채널로 이동 <#${channelId}>](${channelUrl})\n\n채널을 원하는 위치로 이동하고, 이름을 변경하고, 권한과 유형을 변경할 수 있습니다...`
+            ko: (channelId, channelUrl) => `🎉 채널이 생성되었습니다 ➜ [채널로 이동 <#${channelId}>](${channelUrl})\n\n채널을 원하는 위치로 이동하고, 이름을 변경하고, 권한과 유형을 변경할 수 있습니다...`
         },
         error_while_creating_channel: {
             default: 'Error while creating the channel: ',
