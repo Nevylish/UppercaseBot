@@ -139,7 +139,7 @@ class UpperCaseClient extends Client {
 
         super.login(token).then(() => {
             this.eventsListeners();
-            //this.registerCommands();
+            this.registerCommands();
         });
     }
 
@@ -267,57 +267,56 @@ class UpperCaseClient extends Client {
      * Globally register slash commands
      * @returns {void}
      */
-    // TODO: Fix error, since translations added
     registerCommands() {
         this.application.commands
             .set([
                 {
                     name: "create-channel",
                     nameLocalizations: {
-                        fr: 'créer-un-salon',
-                        es: 'crear-un-canal',
+                        "fr": 'créer-un-salon',
+                        "es-ES": 'crear-un-canal',
                         "pt-BR": 'criar-um-canal',
-                        de: 'kanal-erstellen',
-                        it: 'crea-un-canale',
-                        ru: 'создать-канал',
-                        tr: 'kanal-oluştur',
-                        ko: '채널-생성'
+                        "de": 'kanal-erstellen',
+                        "it": 'crea-un-canale',
+                        "ru": 'создать-канал',
+                        "tr": 'kanal-oluştur',
+                        "ko": '채널-생성'
                     },
                     description: "Create channel with UpperCase letters",
                     descriptionLocalizations: {
-                        fr: 'Créer un salon avec des lettres majuscules alternatives',
-                        es: 'Crear un canal con letras en mayúsculas alternas',
+                        "fr": 'Créer un salon avec des lettres majuscules alternatives',
+                        "es-ES": 'Crear un canal con letras en mayúsculas alternas',
                         "pt-BR": 'Criar um canal com letras em maiúsculas alternadas',
-                        de: 'Kanal mit Großbuchstaben erstellen',
-                        it: 'Crea un canale con lettere in maiuscolo alternative',
-                        ru: 'Создать канал с буквами в верхнем регистре',
-                        tr: 'Büyük harfli harflerle kanal oluştur',
-                        ko: '대문자 알파벳을 사용하여 채널 생성'
+                        "de": 'Kanal mit Großbuchstaben erstellen',
+                        "it": 'Crea un canale con lettere in maiuscolo alternative',
+                        "ru": 'Создать канал с буквами в верхнем регистре',
+                        "tr": 'Büyük harfli harflerle kanal oluştur',
+                        "ko": '대문자 알파벳을 사용하여 채널 생성'
                     },
                     type: 1,
                     options: [
                         {
                             name: "channel_name",
                             nameLocalizations: {
-                                fr: 'nom_du_salon',
-                                es: 'nombre_del_canal',
+                                "fr": 'nom_du_salon',
+                                "es-ES": 'nombre_del_canal',
                                 "pt-BR": 'nome_do_canal',
-                                de: 'kanalname',
-                                it: 'nome_del_canale',
-                                ru: 'имя_канала',
-                                tr: 'kanal_adı',
-                                ko: '채널_이름'
+                                "de": 'kanalname',
+                                "it": 'nome_del_canale',
+                                "ru": 'имя_канала',
+                                "tr": 'kanal_adı',
+                                "ko": '채널_이름'
                             },
                             description: "Name for channel to create, write with uppercase, they will be replaced by alt uppercase letters",
                             descriptionLocalizations: {
-                                fr: 'Nom du salon à créer, utilise des lettres maj, elles seront remplacées par des maj alternatives',
-                                es: 'Nombre del canal a crear, escriba en mayúsculas, se reemplazarán por letras mayúsculas alt',
+                                "fr": 'Nom du salon à créer, utilise des lettres maj, elles seront remplacées par des maj alternatives',
+                                "es-ES": 'Nombre del canal a crear, escriba en mayúsculas, se reemplazarán por letras mayúsculas alt',
                                 "pt-BR": 'Nome do canal para criar, escreva em letras maiúsculas',
-                                de: 'Name für zu erstellenden Kanal, schreibe mit Großbuchstaben',
-                                it: 'Nome del canale da creare, scrivi in maiuscolo',
-                                ru: 'Имя канала для создания, напишите заглавные буквы',
-                                tr: 'Oluşturulacak kanalın adı, büyük harfle yazın, alternatif büyük harflerle değiştirilecektir',
-                                ko: '생성할 채널의 이름, 대문자로 작성하고, 대문자 대체 문자로 교체됩니다'
+                                "de": 'Name für zu erstellenden Kanal, schreibe mit Großbuchstaben',
+                                "it": 'Nome del canale da creare, scrivi in maiuscolo',
+                                "ru": 'Имя канала для создания, напишите заглавные буквы',
+                                "tr": 'Oluşturulacak kanalın adı, büyük harfle yazın, alternatif büyük harflerle değiştirilecektir',
+                                "ko": '생성할 채널의 이름, 대문자로 작성하고, 대문자 대체 문자로 교체됩니다'
                             },
                             type: 3,
                             required: true,
@@ -325,24 +324,24 @@ class UpperCaseClient extends Client {
                         {
                             name: "channel_type",
                             nameLocalizations: {
-                                fr: 'type_de_salon',
-                                es: 'tipo_de_canal',
+                                "fr": 'type_de_salon',
+                                "es-ES": 'tipo_de_canal',
                                 "pt-BR": 'tipo_de_canal',
-                                it: 'tipo_di_canale',
-                                ru: 'тип_канала',
-                                tr: 'kanal_türü',
-                                ko: '채널_유형'
+                                "it": 'tipo_di_canale',
+                                "ru": 'тип_канала',
+                                "tr": 'kanal_türü',
+                                "ko": '채널_유형'
                             },
                             description: "Type for channel to create, Text, Forum or Announcement. Empty: Text",
                             descriptionLocalizations: {
-                                fr: 'Type de salon à créer, Textuel, Forum ou Annonces. Vide: Textuel',
-                                es: 'Tipo de canal a crear',
+                                "fr": 'Type de salon à créer, Textuel, Forum ou Annonces. Vide: Textuel',
+                                "es-ES": 'Tipo de canal a crear',
                                 "pt-BR": 'Tipo de canal para criar',
-                                de: 'Typ des zu erstellenden Kanals',
-                                it: 'Tipo di canale da creare',
-                                ru: 'Тип создаваемого канала',
-                                tr: 'Oluşturulacak kanalın türü',
-                                ko: '생성할 채널의 유형'
+                                "de": 'Typ des zu erstellenden Kanals',
+                                "it": 'Tipo di canale da creare',
+                                "ru": 'Тип создаваемого канала',
+                                "tr": 'Oluşturulacak kanalın türü',
+                                "ko": '생성할 채널의 유형'
                             },
                             type: 3,
                             choices: [
@@ -366,50 +365,50 @@ class UpperCaseClient extends Client {
                 {
                     name: "rename-channel",
                     nameLocalizations: {
-                        fr: 'renommer-un-salon',
-                        es: 'renombrar-canal',
+                        "fr": 'renommer-un-salon',
+                        "es-ES": 'renombrar-canal',
                         "pt-BR": 'renomear-canal',
-                        de: 'Kanal-umbenennen',
-                        it: 'rinomina-canale',
-                        ru: 'переименовать-канал',
-                        tr: 'kanalı-yeniden-adlandır',
-                        ko: '채널-이름-변경'
+                        "de": 'kanal-umbenennen',
+                        "it": 'rinomina-canale',
+                        "ru": 'переименовать-канал',
+                        "tr": 'kanalı-yeniden-adlandır',
+                        "ko": '채널-이름-변경'
                     },
                     description: "Rename existing channel with UpperCase letters",
                     descriptionLocalizations: {
-                        fr: 'Renommer un salon existant avec des lettres majuscules alternatives',
-                        es: 'Renombrar un canal existente con letras en mayúscula alternativas',
+                        "fr": 'Renommer un salon existant avec des lettres majuscules alternatives',
+                        "es-ES": 'Renombrar un canal existente con letras en mayúscula alternativas',
                         "pt-BR": 'Renomear um canal existente com letras maiúsculas alternativas',
-                        de: 'Vorhandenen Kanal mit Großbuchstaben umbenennen',
-                        it: 'Rinomina il canale esistente con lettere maiuscole alternative',
-                        ru: 'Переименовать существующий канал с использованием альтернативных прописных букв',
-                        tr: 'Varolan kanalı büyük harfli harflerle yeniden adlandır',
-                        ko: '기존 채널의 이름을 대문자 대체로 변경'
+                        "de": 'Vorhandenen Kanal mit Großbuchstaben umbenennen',
+                        "it": 'Rinomina il canale esistente con lettere maiuscole alternative',
+                        "ru": 'Переименовать существующий канал с использованием альтернативных прописных букв',
+                        "tr": 'Varolan kanalı büyük harfli harflerle yeniden adlandır',
+                        "ko": '기존 채널의 이름을 대문자 대체로 변경'
                     },
                     type: 1,
                     options: [
                         {
                             name: "channel",
                             nameLocalizations: {
-                                fr: 'salon',
-                                es: 'canal',
+                                "fr": 'salon',
+                                "es-ES": 'canal',
                                 "pt-BR": 'canal',
-                                de: 'Kanal',
-                                it: 'canale',
-                                ru: 'канал',
-                                tr: 'kanal',
-                                ko: '채널'
+                                "de": 'kanal',
+                                "it": 'canale',
+                                "ru": 'канал',
+                                "tr": 'kanal',
+                                "ko": '채널'
                             },
                             description: "Select channel to rename",
                             descriptionLocalizations: {
-                                fr: 'Sélectionne le salon à renommer',
-                                es: 'Selecciona el canal para renombrar',
+                                "fr": 'Sélectionne le salon à renommer',
+                                "es-ES": 'Selecciona el canal para renombrar',
                                 "pt-BR": 'Selecione o canal para renomear',
-                                de: 'Wähle den zu umbenennenden Kanal aus',
-                                it: 'Seleziona il canale da rinominare',
-                                ru: 'Выберите канал для переименования',
-                                tr: 'Yeniden adlandırmak için kanal seçin',
-                                ko: '이름을 변경할 채널을 선택하세요'
+                                "de": 'Wähle den zu umbenennenden Kanal aus',
+                                "it": 'Seleziona il canale da rinominare',
+                                "ru": 'Выберите канал для переименования',
+                                "tr": 'Yeniden adlandırmak için kanal seçin',
+                                "ko": '이름을 변경할 채널을 선택하세요'
                             },
                             type: 7,
                             required: true,
@@ -417,25 +416,25 @@ class UpperCaseClient extends Client {
                         {
                             name: "new_name",
                             nameLocalizations: {
-                                fr: 'nouveau_nom',
-                                es: 'nuevo_nombre',
+                                "fr": 'nouveau_nom',
+                                "es-ES": 'nuevo_nombre',
                                 "pt-BR": 'novo_nome',
-                                de: 'neuer_name',
-                                it: 'nuovo_nome',
-                                ru: 'новое_имя',
-                                tr: 'yeni_ad',
-                                ko: '새_이름'
+                                "de": 'neuer_name',
+                                "it": 'nuovo_nome',
+                                "ru": 'новое_имя',
+                                "tr": 'yeni_ad',
+                                "ko": '새_이름'
                             },
                             description: "New name for selected channel, write with uppercase, they will be replaced by alt uppercase letters",
                             descriptionLocalizations: {
-                                fr: 'Nouveau nom pour le salon, utilise des lettres maj, elles seront remplacées par des maj alternatives',
-                                es: 'Nuevo nombre para el canal seleccionado, escríbelo conletas mayúsculas',
+                                "fr": 'Nouveau nom pour le salon, utilise des lettres maj, elles seront remplacées par des maj alternatives',
+                                "es-ES": 'Nuevo nombre para el canal seleccionado, escríbelo conletas mayúsculas',
                                 "pt-BR": 'Novo nome para o canal selecionado, escreva com letras maiúsculas',
-                                de: 'Neuer Name für den ausgewählten Kanal, schreibe ihn mit Großbuchstaben',
-                                it: 'Nuovo nome per il canale selezionato, scrivi in maiuscolo',
-                                ru: 'Новое имя для выбранного канала, пишите заглавные буквы',
-                                tr: 'Seçilen kanal için yeni ad, büyük harflerle yazın',
-                                ko: '선택한 채널에 대한 새 이름을 대문자로 작성하세요. 대문자 대체로 교체됩니다'
+                                "de": 'Neuer Name für den ausgewählten Kanal, schreibe ihn mit Großbuchstaben',
+                                "it": 'Nuovo nome per il canale selezionato, scrivi in maiuscolo',
+                                "ru": 'Новое имя для выбранного канала, пишите заглавные буквы',
+                                "tr": 'Seçilen kanal için yeni ad, büyük harflerle yazın',
+                                "ko": '선택한 채널에 대한 새 이름을 대문자로 작성하세요. 대문자 대체로 교체됩니다'
                             },
                             type: 3,
                             required: true
