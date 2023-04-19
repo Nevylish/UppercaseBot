@@ -172,7 +172,7 @@ class UpperCaseClient extends Client {
                 const channelUrl = `https://discord.com/channels/${interaction.guild.id}/${channel.id}`;
                 const embed = new EmbedBuilder({
                     color: Colors.Green,
-                    description: this.locales.channel_created[interaction.locale ?? "default"](channel.id, channelUrl)
+                    description:  `🎉 Channel created ➜ [Go to channel <#${channel.id}>](${channelUrl})\n\nYou can move the channel wherever you want, even rename it, change permissions, type, etc...`, // Todo: Fix translations // this.locales.channel_created[interaction.locale ?? "default"](channel.id, channelUrl)
                 });
 
                 interaction.editReply({embeds: [embed], components: [this.vote_topgg_button(interaction)]});
@@ -203,7 +203,7 @@ class UpperCaseClient extends Client {
                 const channelUrl = `https://discord.com/channels/${interaction.guild.id}/${channel.id}`;
                 const embed = new EmbedBuilder({
                     color: Colors.Green,
-                    description: this.locales.channel_renamed[interaction.locale ?? "default"](channel.id, channelUrl)
+                    description: `🎉 Channel renamed ➜ [Go to channel <#${channel.id}>](${channelUrl}).` // TODO: Fix Translations // this.locales.channel_renamed[interaction.locale ?? "default"](channel.id, channelUrl)
                 });
 
                 interaction.editReply({embeds: [embed], components: [this.vote_topgg_button(interaction)]});
@@ -294,6 +294,8 @@ class UpperCaseClient extends Client {
                         "ko": '대문자 알파벳을 사용하여 채널 생성'
                     },
                     type: 1,
+                    dmPermission: false,
+                    defaultMemberPermissions: PermissionsBitField.Flags.ManageChannels,
                     options: [
                         {
                             name: "channel_name",
@@ -386,6 +388,8 @@ class UpperCaseClient extends Client {
                         "ko": '기존 채널의 이름을 대문자 대체로 변경'
                     },
                     type: 1,
+                    dmPermission: false,
+                    defaultMemberPermissions: PermissionsBitField.Flags.ManageChannels,
                     options: [
                         {
                             name: "channel",
@@ -504,7 +508,7 @@ class UpperCaseClient extends Client {
             .addComponents(
                 new ButtonBuilder()
                     .setStyle(ButtonStyle.Link)
-                    .setLabel(this.locales.vote_topgg_button[interaction.locale ?? "default"])
+                    .setLabel(this.locales.vote_topgg_button[interaction.locale ?? "default"] ?? "Vote on Top.gg (please <3)")
                     .setEmoji('<:topgg:1093959259890389092>')
                     .setURL('https://top.gg/bot/1072283043739467807/vote')
             )
