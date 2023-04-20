@@ -144,6 +144,50 @@ class UpperCaseClient extends Client {
     }
 
     /**
+     * Learn more about Uppercase Bot
+     * @param {CommandInteraction} interaction
+     * @returns {void}
+     */
+    async about(interaction) {
+        await interaction.deferReply({ephemeral: true});
+
+        const embed = new EmbedBuilder()
+            .setAuthor({iconURL: this.user.displayAvatarURL({size: 128}), name: 'About UpperCase Bot', url: 'https://uppercasebot.nevylish.fr/'})
+            .setColor('#2b2d31')
+            .setDescription(`Hi @${interaction.member.user.username} !\n\n` +
+                "Uppercase Bot is a Discord bot that allows you to create channels with alternative uppercase letters.\nIdeal for adding a touch of originality to your Discord server and customizing your chat spaces.\n\n" +
+                "**Commands list**:\n" +
+                " • </create-channel:1072286509396398221>: Create a channel with alternative uppercase letters\n" +
+                " • </rename-channel:1074701489303457862>: Rename existing channel with alternative uppercase letters\n\n" +
+                "**Permissions**:\nUpperCase Bot need \"Manage channels\" permission on your guild to work. Members also need these permissions to use the commands.\n\n" +
+                "**Privacy**:\nThe issue of privacy is a topic that is particularly important to me, which is why I have decided to NOT save ANY data concerning users, channels, their messages, or anything else. [**Privacy Policy**](https://uppercasebot.nevylish.fr/privacy)\n\n" +
+                "**Need help**? **Just a question**? Contact us at uppercasebot@nevylish.fr\n" +
+                "[Terms of Service](https://uppercasebot.nevylish.fr/terms)")
+            .setFooter({text: 'Copyright © 2022-2023 UpperCase Bot by Nevylish. All rights reserved.'})
+
+        const row = new ActionRowBuilder()
+            .addComponents(
+                new ButtonBuilder()
+                    .setStyle(ButtonStyle.Link)
+                    .setLabel("Invite")
+                    .setEmoji('➕')
+                    .setURL('https://discord.com/oauth2/authorize?client_id=1072283043739467807&permissions=277025442833&scope=bot%20applications.commands'),
+                new ButtonBuilder()
+                    .setStyle(ButtonStyle.Link)
+                    .setLabel("Website")
+                    .setEmoji('🌐')
+                    .setURL('https://uppercasebot.nevylish.fr/'),
+                new ButtonBuilder()
+                    .setStyle(ButtonStyle.Link)
+                    .setLabel("Top.gg")
+                    .setEmoji('<:topgg:1093959259890389092>')
+                    .setURL('https://top.gg/bot/1072283043739467807/')
+            )
+
+        interaction.editReply({embeds: [embed], components: [row]});
+    }
+
+    /**
      * Create channel with alternatives uppercase letters
      * @param {CommandInteraction} interaction
      * @returns {void}
@@ -222,6 +266,10 @@ class UpperCaseClient extends Client {
             if (!interaction.isCommand()) return;
 
             switch (interaction.commandName) {
+                case "about": {
+                    this.about(interaction);
+                    break;
+                }
                 case "create-channel": {
                     this.createChannel(interaction);
                     break;
@@ -270,6 +318,11 @@ class UpperCaseClient extends Client {
     registerCommands() {
         this.application.commands
             .set([
+                {
+                    name: "about",
+                    description: 'Learn more about UpperCase Bot, like commands or contact informations',
+                    type: 1
+                },
                 {
                     name: "create-channel",
                     nameLocalizations: {
