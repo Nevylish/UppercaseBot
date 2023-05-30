@@ -216,7 +216,7 @@ class UpperCaseClient extends Client {
                 const channelUrl = `https://discord.com/channels/${interaction.guild.id}/${channel.id}`;
                 const embed = new EmbedBuilder({
                     color: Colors.Green,
-                    description:  `🎉 Channel created ➜ [Go to channel <#${channel.id}>](${channelUrl})\n\nYou can move the channel wherever you want, even rename it, change permissions, type, etc...`, // Todo: Fix translations // this.locales.channel_created[interaction.locale ?? "default"](channel.id, channelUrl)
+                    description:  `🎉 Channel created ➜ [Go to channel](${channelUrl}) <#${channel.id}>\n\nYou can move the channel wherever you want, even rename it, change permissions, type, etc...`, // Todo: Fix translations // this.locales.channel_created[interaction.locale ?? "default"](channel.id, channelUrl)
                 });
 
                 interaction.editReply({embeds: [embed], components: [this.vote_topgg_button(interaction)]});
@@ -247,7 +247,7 @@ class UpperCaseClient extends Client {
                 const channelUrl = `https://discord.com/channels/${interaction.guild.id}/${channel.id}`;
                 const embed = new EmbedBuilder({
                     color: Colors.Green,
-                    description: `🎉 Channel renamed ➜ [Go to channel <#${channel.id}>](${channelUrl}).` // TODO: Fix Translations // this.locales.channel_renamed[interaction.locale ?? "default"](channel.id, channelUrl)
+                    description: `🎉 Channel renamed ➜ [Go to channel](${channelUrl}) <#${channel.id}>.` // TODO: Fix Translations // this.locales.channel_renamed[interaction.locale ?? "default"](channel.id, channelUrl)
                 });
 
                 interaction.editReply({embeds: [embed], components: [this.vote_topgg_button(interaction)]});
