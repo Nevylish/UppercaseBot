@@ -32,6 +32,8 @@ const {
     WebhookClient
 } = require("discord.js");
 
+const {AutoPoster} = require('topgg-autoposter');
+
 class UpperCaseClient extends Client {
     /* permissionsInteger = 277025442833; */
 
@@ -137,9 +139,11 @@ class UpperCaseClient extends Client {
             partials: ["CHANNEL", "MESSAGE", "USER"],
         });
 
+
         super.login(token).then(() => {
             this.eventsListeners();
             this.registerCommands();
+            AutoPoster(process.env.TOPGG_TOKEN, this);
         });
     }
 
