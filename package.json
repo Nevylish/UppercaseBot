@@ -1,16 +1,22 @@
 {
-  "name": "uppercase-bot",
-  "description": "Finally use upper case letters for your channel names.",
-  "version": "1.0.0",
-  "homepage": "https://uppercasebot.nevylish.fr/",
-  "author": {
-    "name": "Nevylish",
-    "email": "bonjour@nevylish.fr",
-    "url": "https://nevylish.fr/"
-  },
-  "dependencies": {
-    "discord.js": "^14.11.0",
-    "dotenv": "^16.1.0",
-    "topgg-autoposter": "^2.0.1"
-  }
+	"name": "uppercase-bot",
+	"description": "Finally use upper case letters for your channel names.",
+	"version": "2.0.0",
+	"homepage": "https://uppercasebot.nevylish.fr/",
+	"author": {
+		"name": "Nevylish",
+		"email": "bonjour@nevylish.fr",
+		"url": "https://nevylish.fr/"
+	},
+	"dependencies": {
+		"cron": "^2.3.1",
+		"discord.js": "^14.11.0",
+		"dotenv": "^16.1.3",
+		"glob": "^7.2.0",
+		"moment": "^2.29.4",
+		"topgg-autoposter": "^2.0.1"
+	},
+	"devDependencies": {
+		"@types/node": "^20.2.5"
+	}
 }
