@@ -1,4 +1,4 @@
-import { CommandInteraction, ChannelType, GuildMember, EmbedBuilder, GuildChannel, PermissionFlagsBits, ApplicationCommandOptionType } from "discord.js";
+import { CommandInteraction, ChannelType, GuildMember, EmbedBuilder, GuildChannel, PermissionFlagsBits, ApplicationCommandOptionType, CategoryChannelResolvable } from "discord.js";
 import Command from "../base/Command";
 import UppercaseClient from "../base/UppercaseClient";
 import { Member } from "../utils/member";
@@ -112,7 +112,6 @@ export default class CreateChannelCommand extends Command {
 
         if (!channel_type) channel_type = ChannelType.GuildText;
         if (!Member.isStaff(interaction.member as GuildMember)) {
-            // TODO: err texts
             throw new InsufficientPermissions('You do not have the necessary permissions to run this command.');
         }
 
@@ -122,8 +121,7 @@ export default class CreateChannelCommand extends Command {
             name: Functions.alternativeUppercaseAlgorithm(channel_name),
             type: Number(channel_type),
             reason: `@${interaction.member.user.username} used /create-channel command with Uppercase Bot`,
-            // @ts-ignore
-            parent: interaction.channel.parent
+            parent: (interaction.channel.parent as CategoryChannelResolvable)
         }).then((channel: GuildChannel) => {
             const channelUrl = `https://discord.com/channels/${interaction.guild.id}/${channel.id}`;
             const embed = new EmbedBuilder()

@@ -54,7 +54,6 @@ export default class AboutCommand extends Command {
                     .setURL('https://top.gg/bot/' + Constants.ApplicationInformations.topgg_id)
             )
 
-
         // @ts-ignore
         interaction.editReply({embeds: [embed], components: [row]});
     }

@@ -11,7 +11,7 @@ export default class UppercaseClient extends Client {
     
     env: NodeJS.ProcessEnv = process.env;
 
-    isDevEnvironment: boolean = (this.env.ENV = "DEV") ? true : false;
+    isDevEnvironment: boolean = this.env.ENVIRONMENT === "DEV" ? true : false;
 
     var: Types.Var = {
         topggToken: this.env.TOPGG_TOKEN,
