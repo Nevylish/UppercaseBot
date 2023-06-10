@@ -1,4 +1,4 @@
-import { Client, Collection, GatewayIntentBits } from "discord.js";
+import { Client, Collection, GatewayIntentBits, Partials } from "discord.js";
 import { Handlers } from "./Handlers";
 import { Logger } from "../utils/logger";
 import Command from "./Command";
@@ -16,13 +16,12 @@ export default class UppercaseClient extends Client {
 
     constructor(token: string) {
         super({
-            intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildInvites],
+            intents: [GatewayIntentBits.Guilds],
             allowedMentions: {
                 parse: ['users'],
                 repliedUser: true
             }, 
-            // @ts-ignore
-            partials: ["CHANNEL", "MESSAGE", "USER"]
+            partials: [Partials.Channel, Partials.User]
         });
 
         Logger.log('Client', 'Connecting to Discord...');
