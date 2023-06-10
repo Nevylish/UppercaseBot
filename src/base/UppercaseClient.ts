@@ -9,7 +9,7 @@ export default class UppercaseClient extends Client {
 
     commands: Collection<string, Command> = new Collection();
     
-    env = process.env;
+    env: NodeJS.ProcessEnv = process.env;
 
     isDevEnvironment: boolean = (this.env.ENV = "DEV") ? true : false;
 
