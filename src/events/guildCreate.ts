@@ -3,7 +3,7 @@ import UppercaseClient from "../base/UppercaseClient";
 import { Constants } from "../utils/constants";
 
 export = async (client: UppercaseClient, guild: Guild) => {
-    const webhookClient = new WebhookClient({url: 'htps://discord.com/api/webhooks/1074607158324383744/ror7D1o2LADu9FdMZcbcUTVNrtVZPY0r9ssk6DOk0tjpTjiYkfnS-GKh6VrEjtj6e04b'});
+    const webhookClient = new WebhookClient({url: client.wehbookUrl});
     const owner = (await guild.fetchOwner());
 
     let description = `Members: ${guild.memberCount}`;

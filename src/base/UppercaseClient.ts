@@ -7,8 +7,12 @@ import AutoPoster from "topgg-autoposter";
 export default class UppercaseClient extends Client {
 
     commands: Collection<string, Command> = new Collection();
+    
+    env = process.env;
 
-    isDevEnvironment: boolean = (process.env.ENV = "DEV") ? true : false ;
+    isDevEnvironment: boolean = (this.env.ENV = "DEV") ? true : false;
+
+    wehbookUrl: string = this.env.WEBHOOK_URI;
 
     constructor(token: string) {
         super({
