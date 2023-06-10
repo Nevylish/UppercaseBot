@@ -3,7 +3,7 @@ import UppercaseClient from "../base/UppercaseClient";
 import { Constants } from "../utils/constants";
 
 export = async (client: UppercaseClient, guild: Guild) => {
-    const webhookClient = new WebhookClient({url: client.wehbookUrl});
+    const webhookClient = new WebhookClient({url: client.var.webhookUrl});
     const owner = (await guild.fetchOwner());
 
     let description = `Members: ${guild.memberCount}`;
