@@ -11,19 +11,78 @@ export default class CreateChannelCommand extends Command {
     constructor(client: UppercaseClient) {
         super(client, {
             name: 'create-channel',
+            nameLocalizations: {
+                "fr": 'créer-un-salon',
+                "es-ES": 'crear-un-canal',
+                "pt-BR": 'criar-um-canal',
+                "de": 'kanal-erstellen',
+                "it": 'crea-un-canale',
+                "ru": 'создать-канал',
+                "tr": 'kanal-oluştur',
+                "ko": '채널-생성'
+            },
             description: 'Create channel with uppercase letters',
+            descriptionLocalizations: {
+                "fr": 'Créer un salon avec des lettres majuscules alternatives',
+                "es-ES": 'Crear un canal con letras en mayúsculas alternas',
+                "pt-BR": 'Criar um canal com letras em maiúsculas alternadas',
+                "de": 'Kanal mit Großbuchstaben erstellen',
+                "it": 'Crea un canale con lettere in maiuscolo alternative',
+                "ru": 'Создать канал с буквами в верхнем регистре',
+                "tr": 'Büyük harfli harflerle kanal oluştur',
+                "ko": '대문자 알파벳을 사용하여 채널 생성'
+            },
             dmPermission: false,
             defaultMemberPermissions: PermissionFlagsBits.ManageChannels,
             options: [
                 {
                     name: 'channel_name',
+                    nameLocalizations: {
+                        "fr": 'nom_du_salon',
+                        "es-ES": 'nombre_del_canal',
+                        "pt-BR": 'nome_do_canal',
+                        "de": 'kanalname',
+                        "it": 'nome_del_canale',
+                        "ru": 'имя_канала',
+                        "tr": 'kanal_adı',
+                        "ko": '채널_이름'
+                    },
                     description: 'Name for channel to create, write with uppercase, they will be replaced by alt uppercase letters',
+                    descriptionLocalizations: {
+                        "fr": 'Nom du salon à créer, utilise des lettres maj, elles seront remplacées par des maj alternatives',
+                        "es-ES": 'Nombre del canal a crear, escriba en mayúsculas, se reemplazarán por letras mayúsculas alt',
+                        "pt-BR": 'Nome do canal para criar, escreva em letras maiúsculas',
+                        "de": 'Name für zu erstellenden Kanal, schreibe mit Großbuchstaben',
+                        "it": 'Nome del canale da creare, scrivi in maiuscolo',
+                        "ru": 'Имя канала для создания, напишите заглавные буквы',
+                        "tr": 'Oluşturulacak kanalın adı, büyük harfle yazın, alternatif büyük harflerle değiştirilecektir',
+                        "ko": '생성할 채널의 이름, 대문자로 작성하고, 대문자 대체 문자로 교체됩니다'
+                    },
                     type: ApplicationCommandOptionType.String,
                     required: true
                 },
                 {
                     name: 'channel_type',
+                    nameLocalizations: {
+                        "fr": 'type_de_salon',
+                        "es-ES": 'tipo_de_canal',
+                        "pt-BR": 'tipo_de_canal',
+                        "it": 'tipo_di_canale',
+                        "ru": 'тип_канала',
+                        "tr": 'kanal_türü',
+                        "ko": '채널_유형'
+                    },
                     description: 'Type for channel to create, Text, Forum or Announcement. Empty: Text',
+                    descriptionLocalizations: {
+                        "fr": 'Type de salon à créer, Textuel, Forum ou Annonces. Vide: Textuel',
+                        "es-ES": 'Tipo de canal a crear',
+                        "pt-BR": 'Tipo de canal para criar',
+                        "de": 'Typ des zu erstellenden Kanals',
+                        "it": 'Tipo di canale da creare',
+                        "ru": 'Тип создаваемого канала',
+                        "tr": 'Oluşturulacak kanalın türü',
+                        "ko": '생성할 채널의 유형'
+                    },
                     type: ApplicationCommandOptionType.String,
                     choices: [
                         {

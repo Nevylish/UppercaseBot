@@ -8,7 +8,13 @@ export default class AboutCommand extends Command {
     constructor(client: UppercaseClient) {
         super(client, {
             name: 'about',
-            description: 'Learn more about UpperCase Bot, like commands or contact informations'
+            nameLocalizations: {
+                "fr": "a-propos"
+            },
+            description: 'Learn more about UpperCase Bot, like commands or contact informations',
+            descriptionLocalizations: {
+                "fr": "Apprends-en plus à propos de Uppercase Bot, comme les commandes ou les infos de contact"
+            }
         })
     }
     
