@@ -1,4 +1,4 @@
-import { CommandInteraction, ChannelType, GuildMember, EmbedBuilder, GuildChannel, PermissionFlagsBits, ApplicationCommandOptionType, CategoryChannelResolvable } from "discord.js";
+import { CommandInteraction, ChannelType, GuildMember, EmbedBuilder, GuildChannel, ApplicationCommandOptionType, CategoryChannelResolvable, PermissionsBitField } from "discord.js";
 import Command from "../base/Command";
 import UppercaseClient from "../base/UppercaseClient";
 import { Member } from "../utils/member";
@@ -6,6 +6,7 @@ import InsufficientPermissions from "../exception/InsufficientPermissions";
 import { Functions } from "../utils/functions";
 import { Constants } from "../utils/constants";
 import { Logger } from "../utils/logger";
+import BadCommandUsage from "../exception/BadCommandUsage";
 
 export default class CreateChannelCommand extends Command {
     constructor(client: UppercaseClient) {
@@ -33,7 +34,7 @@ export default class CreateChannelCommand extends Command {
                 "ko": '대문자 알파벳을 사용하여 채널 생성'
             },
             dmPermission: false,
-            defaultMemberPermissions: PermissionFlagsBits.ManageChannels,
+            defaultMemberPermissions: [PermissionsBitField.Flags.Administrator, PermissionsBitField.Flags.BanMembers, PermissionsBitField.Flags.ManageChannels, PermissionsBitField.Flags.ManageGuild],
             options: [
                 {
                     name: 'channel_name',
@@ -113,6 +114,10 @@ export default class CreateChannelCommand extends Command {
         if (!channel_type) channel_type = ChannelType.GuildText;
         if (!Member.isStaff(interaction.member as GuildMember)) {
             throw new InsufficientPermissions('You do not have the necessary permissions to run this command.');
+        }
+
+        if (!interaction.guild.members.me.permissions.has([PermissionsBitField.Flags.ManageChannels])) {
+            throw new BadCommandUsage("**I don't have the necessary permissions to create a channel.**\n\nPlease check that I have the **\"Manage channels\"** permission.\n\nIf you still don't understand why I don't have the permission, give me the **\"Administrator\"** permission or an admin role.")
         }
 
         await interaction.deferReply({ephemeral: true});

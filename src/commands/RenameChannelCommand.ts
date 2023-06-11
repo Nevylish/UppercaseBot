@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType, CommandInteraction, EmbedBuilder, GuildChannel, GuildMember, PermissionFlagsBits } from "discord.js";
+import { ApplicationCommandOptionType, CommandInteraction, EmbedBuilder, GuildChannel, GuildMember, PermissionsBitField } from "discord.js";
 import Command from "../base/Command";
 import UppercaseClient from "../base/UppercaseClient";
 import { Functions } from "../utils/functions";
@@ -6,6 +6,7 @@ import { Member } from "../utils/member";
 import InsufficientPermissions from "../exception/InsufficientPermissions";
 import { Constants } from "../utils/constants";
 import { Logger } from "../utils/logger";
+import BadCommandUsage from "../exception/BadCommandUsage";
 
 export default class RenameChannelCommand extends Command {
     constructor(client: UppercaseClient) {
@@ -33,7 +34,7 @@ export default class RenameChannelCommand extends Command {
                 "ko": '기존 채널의 이름을 대문자 대체로 변경'
             },
             dmPermission: false,
-            defaultMemberPermissions: PermissionFlagsBits.ManageChannels,
+            defaultMemberPermissions: [PermissionsBitField.Flags.Administrator, PermissionsBitField.Flags.BanMembers, PermissionsBitField.Flags.ManageChannels, PermissionsBitField.Flags.ManageGuild],
             options: [
                 {
                     name: 'channel',
@@ -99,6 +100,10 @@ export default class RenameChannelCommand extends Command {
 
         if (!Member.isStaff(interaction.member as GuildMember)) {
             throw new InsufficientPermissions('You do not have the necessary permissions to run this command.');
+        }
+
+        if (!interaction.guild.members.me.permissions.has([PermissionsBitField.Flags.ManageChannels])) {
+            throw new BadCommandUsage("**I don't have the necessary permissions to rename a channel.**\n\nPlease check that I have the **\"Manage channels\"** permission.\n\nIf you still don't understand why I don't have the permission, give me the **\"Administrator\"** permission or an admin role.")
         }
 
         await interaction.deferReply({ephemeral: true});

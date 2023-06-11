@@ -31,7 +31,7 @@ export default class AboutCommand extends Command {
                 " • </rename-channel:1074701489303457862>: Rename existing channel with alternative uppercase letters\n\n" +
                 `**Permissions**:\n${Constants.ApplicationInformations.name} need \"Manage channels\" permission on your guild to work. Members also need these permissions to use the commands.\n\n` +
                 `**Privacy**:\nThe issue of privacy is a topic that is particularly important to me, which is why I have decided to NOT save ANY data concerning users, channels, their messages, or anything else. [**Privacy Policy**](${Constants.ApplicationInformations.website}/privacy)\n\n` +
-                `**Need help**? **Just a question**? Contact us at ${Constants.ApplicationInformations.mail}\n` +
+                `**Need help**? **Just a question**? **Report a bug**? - Contact us at ${Constants.ApplicationInformations.mail}\n` +
                 `[Terms of Service](${Constants.ApplicationInformations.website}/terms)`)
             .setFooter({text: `Copyright © ${Constants.ApplicationInformations.creationYear}-${moment().year()} ${Constants.ApplicationInformations.name} by ${Constants.DeveloperInformations.name}. All rights reserved.`})
 

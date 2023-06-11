@@ -68,7 +68,15 @@ export namespace Handlers {
         }
 
         await cmd.onExecute(interaction)?.catch(err => {
-            const embed = new EmbedBuilder().setColor(Constants.Colors.ERROR).setDescription('❗ ' + err.message);
+            const embed = new EmbedBuilder()
+                .setColor(Constants.Colors.ERROR)
+                .setDescription('❗• ' + err.message)
+                .setFooter(
+                    {
+                        text: 'Report a bug? Ask a question? - Contact us at uppercasebot@nevylish.fr'
+                    }
+                );
+
             if (interaction.deferred) {
                 interaction.editReply({embeds: [embed]});
             } else {
