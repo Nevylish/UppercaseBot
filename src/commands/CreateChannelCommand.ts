@@ -34,7 +34,7 @@ export default class CreateChannelCommand extends Command {
                 "ko": '대문자 알파벳을 사용하여 채널 생성'
             },
             dmPermission: false,
-            defaultMemberPermissions: [PermissionsBitField.Flags.Administrator, PermissionsBitField.Flags.BanMembers, PermissionsBitField.Flags.ManageChannels, PermissionsBitField.Flags.ManageGuild],
+            defaultMemberPermissions: PermissionsBitField.Flags.ManageChannels,
             options: [
                 {
                     name: 'channel_name',
@@ -136,6 +136,15 @@ export default class CreateChannelCommand extends Command {
                 interaction.editReply({embeds: [embed], components: [Functions.spawnVoteTopGGButton(interaction)]});
         }).catch((err) => {
             Logger.error("CreateChannelCommand", '(onExecute)', err);
+            const embed = new EmbedBuilder()
+                .setColor(Constants.Colors.ERROR)
+                .setDescription('❗• Error while creating channel: **' + err.message + '**\n\nTo try to fix a lot of errors, give me "Administrator" permission and rerun the command.')
+                .setFooter(
+                    {
+                        text: 'Report a bug? Ask a question? - Contact us at uppercasebot@nevylish.fr'
+                    }
+                );
+            interaction.editReply({embeds: [embed]});
             throw new Error(`Error while creating channel: ` + err.message);
         })
     }

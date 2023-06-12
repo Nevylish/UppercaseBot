@@ -1,4 +1,4 @@
-import { ApplicationCommandOptionType, CommandInteraction, EmbedBuilder, GuildChannel, GuildMember, PermissionsBitField } from "discord.js";
+import { ApplicationCommandOptionType, CommandInteraction, Embed, EmbedBuilder, GuildChannel, GuildMember, PermissionsBitField } from "discord.js";
 import Command from "../base/Command";
 import UppercaseClient from "../base/UppercaseClient";
 import { Functions } from "../utils/functions";
@@ -34,7 +34,8 @@ export default class RenameChannelCommand extends Command {
                 "ko": '기존 채널의 이름을 대문자 대체로 변경'
             },
             dmPermission: false,
-            defaultMemberPermissions: [PermissionsBitField.Flags.Administrator, PermissionsBitField.Flags.BanMembers, PermissionsBitField.Flags.ManageChannels, PermissionsBitField.Flags.ManageGuild],
+            defaultMemberPermissions: PermissionsBitField.Flags.ManageChannels,
+        
             options: [
                 {
                     name: 'channel',
@@ -117,7 +118,16 @@ export default class RenameChannelCommand extends Command {
                 interaction.editReply({embeds: [embed], components: [Functions.spawnVoteTopGGButton(interaction)]});
         }).catch((err) => {
             Logger.error("RenameChannelCommand", '(onExecute)', err);
-            throw new Error('Error while creating channel: ' + err.message);
-        })
+            const embed = new EmbedBuilder()
+                .setColor(Constants.Colors.ERROR)
+                .setDescription('❗• Error while renaming channel: **' + err.message + '**\n\nTo try to fix a lot of errors, give me "Administrator" permission and rerun the command.')
+                .setFooter(
+                    {
+                        text: 'Report a bug? Ask a question? - Contact us at uppercasebot@nevylish.fr'
+                    }
+                );
+            interaction.editReply({embeds: [embed]});
+            throw new Error(`Error while creating channel: ` + err.message);
+        });
     }
 }

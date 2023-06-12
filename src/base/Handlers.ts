@@ -70,7 +70,7 @@ export namespace Handlers {
         await cmd.onExecute(interaction)?.catch(err => {
             const embed = new EmbedBuilder()
                 .setColor(Constants.Colors.ERROR)
-                .setDescription('❗• ' + err.message)
+                .setDescription('❗• ' + err.message + '\n\nTo try to fix a lot of errors, give me "Administrator" permission and rerun the command.')
                 .setFooter(
                     {
                         text: 'Report a bug? Ask a question? - Contact us at uppercasebot@nevylish.fr'
