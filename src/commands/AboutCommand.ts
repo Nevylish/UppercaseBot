@@ -35,18 +35,19 @@ export default class AboutCommand extends Command {
                 `[Terms of Service](${Constants.ApplicationInformations.website}/terms)`)
             .setFooter({text: `Copyright © ${Constants.ApplicationInformations.creationYear}-${moment().year()} ${Constants.ApplicationInformations.name} by ${Constants.DeveloperInformations.name}. All rights reserved.`})
 
+
         const row = new ActionRowBuilder()
             .addComponents(
                 new ButtonBuilder()
                     .setStyle(ButtonStyle.Link)
                     .setLabel("Invite")
                     .setEmoji('➕')
-                    .setURL(`https://discord.com/oauth2/authorize?client_id=${this.client.user.id}&permissions=277025442833&scope=bot%20applications.commands`),
-                new ButtonBuilder()
+                    .setURL(`https://discord.com/oauth2/authorize?client_id=${this.client.user.id}&permissions=${Constants.permissions.bitfield}&scope=bot%20applications.commands`),
+                /*new ButtonBuilder()
                     .setStyle(ButtonStyle.Link)
                     .setLabel("Website")
                     .setEmoji('🌐')
-                    .setURL(Constants.ApplicationInformations.website),
+                    .setURL(Constants.ApplicationInformations.website),*/
                 new ButtonBuilder()
                     .setStyle(ButtonStyle.Link)
                     .setLabel("Top.gg")

@@ -1,4 +1,13 @@
+import { PermissionsBitField } from "discord.js";
+
 export namespace Constants {
+    export const permissions = new PermissionsBitField([
+        PermissionsBitField.Flags.ManageChannels,
+        PermissionsBitField.Flags.ViewChannel,
+        PermissionsBitField.Flags.SendMessages,
+        PermissionsBitField.Flags.EmbedLinks
+    ]);
+
     export const enum Colors {
         DEFAULT = 'White',
         ERROR = 'Red',
