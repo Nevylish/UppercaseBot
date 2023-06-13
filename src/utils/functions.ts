@@ -1,4 +1,5 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, CommandInteraction } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, CommandInteraction, EmbedBuilder } from "discord.js";
+import { Constants } from "./constants";
 
 export namespace Functions {
     export const alternativeUppercaseAlgorithm = (input: string) => {
@@ -19,6 +20,18 @@ export namespace Functions {
         }
 
         return output;
+    }
+
+    export const buildErrorEmbed = (msg: string) => {
+        return new EmbedBuilder()
+            .setColor(Constants.Colors.ERROR)
+            .setDescription('❗• ' + msg + 
+            '\n\nTo try to fix a lot of errors, give me "Administrator" permission and rerun the command.')
+            .setFooter(
+                {
+                    text: 'Report a bug? Ask a question? - Contact us at uppercasebot@nevylish.fr'
+                }
+            )
     }
 
     export const spawnVoteTopGGButton = (/*interaction used for locales*/ interaction: CommandInteraction) => {

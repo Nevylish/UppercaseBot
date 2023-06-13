@@ -104,7 +104,7 @@ export default class RenameChannelCommand extends Command {
         }
 
         if (!interaction.guild.members.me.permissions.has([PermissionsBitField.Flags.ManageChannels])) {
-            throw new BadCommandUsage("**I don't have the necessary permissions to rename a channel.**\n\nPlease check that I have the **\"Manage channels\"** permission.\n\nIf you still don't understand why I don't have the permission, give me the **\"Administrator\"** permission or an admin role.")
+            throw new BadCommandUsage("**I don't have the necessary permissions to rename a channel.**\n\nPlease check that I have the **\"Manage channels\"** permission.");
         }
 
         await interaction.deferReply({ephemeral: true});
@@ -118,16 +118,14 @@ export default class RenameChannelCommand extends Command {
                 interaction.editReply({embeds: [embed], components: [Functions.spawnVoteTopGGButton(interaction)]});
         }).catch((err) => {
             Logger.error("RenameChannelCommand", '(onExecute)', err);
-            const embed = new EmbedBuilder()
-                .setColor(Constants.Colors.ERROR)
-                .setDescription('❗• Error while renaming channel: **' + err.message + '**\n\nTo try to fix a lot of errors, give me "Administrator" permission and rerun the command.')
-                .setFooter(
-                    {
-                        text: 'Report a bug? Ask a question? - Contact us at uppercasebot@nevylish.fr'
-                    }
-                );
-            interaction.editReply({embeds: [embed]});
-            throw new Error(`Error while creating channel: ` + err.message);
+            interaction.editReply(
+                {
+                    embeds: [
+                        Functions.buildErrorEmbed(`Error while renaming channel: **${err.message}**`)
+                    ]
+                }
+            );
+            throw new Error(`Error while renaming channel: ` + err.message);
         });
     }
 }

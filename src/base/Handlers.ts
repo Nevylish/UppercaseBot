@@ -6,6 +6,7 @@ import UppercaseClient from "./UppercaseClient";
 import Command from './Command';
 import { CommandInteraction, EmbedBuilder } from 'discord.js';
 import {Constants} from '../utils/constants';
+import { Functions } from '../utils/functions';
 
 export namespace Handlers {
     export const loadEventsListeners = (client: UppercaseClient) => {
@@ -60,22 +61,15 @@ export namespace Handlers {
 
         if (!cmd) {
             return interaction.reply({
-                embeds: [new EmbedBuilder()
-                    .setColor(Constants.Colors.ERROR)
-                    .setDescription("❗ • This command does not exist or has been deleted.")
-                ], ephemeral: true
+                embeds: [
+                    Functions.buildErrorEmbed('This command does not exist or has been deleted.')
+                ],
+                ephemeral: true
             });
         }
 
         await cmd.onExecute(interaction)?.catch(err => {
-            const embed = new EmbedBuilder()
-                .setColor(Constants.Colors.ERROR)
-                .setDescription('❗• ' + err.message + '\n\nTo try to fix a lot of errors, give me "Administrator" permission and rerun the command.')
-                .setFooter(
-                    {
-                        text: 'Report a bug? Ask a question? - Contact us at uppercasebot@nevylish.fr'
-                    }
-                );
+            const embed = Functions.buildErrorEmbed(err.message);
 
             if (interaction.deferred) {
                 interaction.editReply({embeds: [embed]});
