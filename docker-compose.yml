@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  uppercasebot:
+    container_name: uppercasebot
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - NODE_ENV=production # Temp
+      - ENVIRONMENT=RELEASE # Temp
+      - TOKEN=
+      - TOPGG_TOKEN=
+    restart: unless-stopped
