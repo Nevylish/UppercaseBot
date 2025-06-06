@@ -168,7 +168,7 @@ export class Dashboard {
                     /* '/api/stats', c'était une bonne idée mais pas envie d'exposer le nom de domaine */
                     '/login.html',
                     '/style.css',
-                    '/ABCGintoNormalVariable.woff',
+                    '/ABCGintoNormalVariable.woff2',
                     '/BrittanySignature-LjyZ.woff',
                 ].includes(req.path)
             ) {
