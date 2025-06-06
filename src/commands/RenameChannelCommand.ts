@@ -137,7 +137,7 @@ export default class RenameChannelCommand extends Command {
         channel_selected
             .edit({
                 name: Functions.alternativeUppercaseAlgorithm(channel_name),
-                reason: `@${interaction.member.user.username} used /rename-channel command with Uppercase Bot`,
+                reason: `@${interaction.member.user.username} used /rename-channel command`,
             })
             .then((channel) => {
                 const channelUrl = `https://discord.com/channels/${interaction.guild.id}/${channel.id}`;

@@ -209,7 +209,7 @@ export default class CreateChannelCommand extends Command {
             .create({
                 name: Functions.alternativeUppercaseAlgorithm(channel_name),
                 type: Number(channel_type),
-                reason: `@${interaction.member.user.username} used /create-channel command with Uppercase Bot`,
+                reason: `@${interaction.member.user.username} used /create-channel command`,
                 parent: parent,
             })
             .then((channel: GuildChannel) => {
