@@ -16,7 +16,7 @@
 1. **Add the bot** to your server using the link below:
 
 ```
-https://discord.com/oauth2/authorize?client_id=1072283043739467807
+https://discord.com/oauth2/authorize?client_id=1072283043739467807&permissions=19472&scope=bot%20applications.commands
 ```
 
 2. **Use the commands**:
