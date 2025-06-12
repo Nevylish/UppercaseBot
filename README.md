@@ -11,10 +11,6 @@
 
 </div>
 
-## 📝 About
-
-UppercaseBot is a Discord bot that allows server administrators to create and rename channels using alternative uppercase letters. This gives your server a unique and stylish look while maintaining readability.
-
 ## 🚀 Usage
 
 1. **Add the bot** to your server using the link below:
@@ -34,8 +30,6 @@ https://discord.com/oauth2/authorize?client_id=1072283043739467807
 
 - Node.js 20 or higher
 - npm or pnpm
-- A Discord server
-- Top.gg token
 
 ### Installation
 
@@ -57,8 +51,8 @@ npm install
 
 ```env
 TOKEN=your_discord_bot_token
-TOPGG_TOKEN=your_topgg_token
-WEBHOOK_URL=your_webhook_url
+TOPGG_TOKEN=your_topgg_token #optional for dev
+WEBHOOK_URL=your_webhook_url #optional for dev
 DASHBOARD_USERNAME=your_dashboard_username
 DASHBOARD_PASSWORD=your_dashboard_password
 DASHBOARD_DOMAIN=your_dashboard_domain
@@ -99,7 +93,7 @@ UppercaseBot/
 | ---------------- | -------------------------------- |
 | `npm run build`  | Build the TypeScript project     |
 | `npm run dev`    | Compile TypeScript in watch mode |
-| `npm run start`  | Start the bot in production mode |
+| `npm run start`  | Start the bot                    |
 | `npm run clean`  | Clean the dist directory         |
 | `npm run format` | Format code using Prettier       |
 
