@@ -1,0 +1,491 @@
+<!-- Go to src/base/Dashboard.ts to see contexts of api paths -->
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+        <title>Vue d'ensemble - UpperCase Bot</title>
+        <link rel="stylesheet" href="style.css" />
+    </head>
+    <!-- Go to src/base/Dashboard.ts to see contexts of api paths -->
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>Vue d'ensemble</h1>
+                <button class="logout-button" onclick="logout()">Se déconnecter</button>
+            </div>
+
+            <div class="stats-section">
+                <h2>Statistiques Globales</h2>
+                <div id="bot-stats" class="stats-grid">
+                    <div class="loading-container">
+                        <div class="loading-spinner"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="search-container">
+                <svg
+                    class="search-icon"
+                    fill="none"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    width="16"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path
+                        d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                    />
+                </svg>
+                <input class="search-input" id="searchInput" placeholder="Rechercher un serveur..." type="text" />
+                <button class="clear-search" id="clearSearch" style="display: none">
+                    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M18 6L6 18M6 6L18 18"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="guilds-grid" id="guildsGrid">
+                <div class="loading-container">
+                    <div class="loading-spinner"></div>
+                </div>
+            </div>
+
+            <div class="modal" id="guildModal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2 id="modalTitle"></h2>
+                    <div class="guild-stats">
+                        <div class="stat-item">
+                            <svg class="stat-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                />
+                                <path
+                                    d="M9 11C11.2091 11 13 9.20914 13 7C13 4.79086 11.2091 3 9 3C6.79086 3 5 4.79086 5 7C5 9.20914 6.79086 11 9 11Z"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                />
+                                <path
+                                    d="M23 21V19C22.9993 18.1137 22.7044 17.2528 22.1614 16.5523C21.6184 15.8519 20.8581 15.3516 20 15.13"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                />
+                                <path
+                                    d="M16 3.13C16.8604 3.35031 17.623 3.85071 18.1676 4.55232C18.7122 5.25392 19.0078 6.11683 19.0078 7.005C19.0078 7.89318 18.7122 8.75608 18.1676 9.45769C17.623 10.1593 16.8604 10.6597 16 10.88"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                />
+                            </svg>
+                            <span id="memberCount">Chargement...</span>
+                        </div>
+                        <div class="stat-item">
+                            <svg class="stat-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 8V12L15 15"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                />
+                                <path
+                                    d="M3.05 11C3.27 6.07 7.5 2 12 2C16.5 2 20.73 6.07 20.95 11"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                />
+                                <path
+                                    d="M21 12C21 16.97 16.97 21 12 21C7.03 21 3 16.97 3 12"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                />
+                            </svg>
+                            <span id="creationDate">Chargement...</span>
+                        </div>
+                        <div class="stat-item">
+                            <svg class="stat-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                />
+                                <path
+                                    d="M12 6V12L16 14"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                />
+                            </svg>
+                            <span id="botJoinDate">Chargement...</span>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <button class="danger" onclick="leaveGuild()">Quitter le serveur</button>
+                    </div>
+                    <h3 style="margin-top: 20px">Salons:</h3>
+                    <div id="channelsList">
+                        <div class="loading-container">
+                            <div class="loading-spinner"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Go to src/base/Dashboard.ts to see contexts of api paths -->
+        <div id="loadingOverlay" class="loading-overlay" style="display: none">
+            <div class="loading-spinner"></div>
+        </div>
+
+        <script>
+            let currentGuildId = null;
+            const modal = document.getElementById('guildModal');
+            const closeBtn = document.getElementsByClassName('close')[0];
+            const loadingOverlay = document.getElementById('loadingOverlay');
+
+            function showLoading() {
+                loadingOverlay.style.display = 'flex';
+                setTimeout(() => {
+                    loadingOverlay.classList.add('show');
+                }, 10);
+            }
+
+            function hideLoading() {
+                loadingOverlay.classList.remove('show');
+                setTimeout(() => {
+                    loadingOverlay.style.display = 'none';
+                }, 300);
+            }
+
+            closeBtn.onclick = function () {
+                modal.classList.remove('show');
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 300);
+            };
+
+            window.onclick = function (event) {
+                if (event.target === modal) {
+                    modal.classList.remove('show');
+                    setTimeout(() => {
+                        modal.style.display = 'none';
+                    }, 300);
+                }
+            };
+
+            async function loadGuilds() {
+                const grid = document.getElementById('guildsGrid');
+                grid.innerHTML = `
+            <div class="loading-container">
+                <div class="loading-spinner"></div>
+            </div>
+        `;
+
+                try {
+                    const response = await fetch('/api/guilds');
+                    allGuilds = await response.json();
+                    grid.innerHTML = '';
+
+                    const BATCH_SIZE = 50; 
+                    const ANIMATION_DELAY = 0.02; 
+
+                    const displayBatch = (startIndex) => {
+                        const endIndex = Math.min(startIndex + BATCH_SIZE, allGuilds.length);
+                        const fragment = document.createDocumentFragment();
+
+                        for (let i = startIndex; i < endIndex; i++) {
+                            const guild = allGuilds[i];
+                            const card = document.createElement('div');
+                            card.className = 'guild-card';
+                            card.style.animationDelay = `${(i % BATCH_SIZE) * ANIMATION_DELAY}s`;
+                            card.onclick = () => showGuildDetails(guild.id, guild.name);
+
+                            card.innerHTML = `
+                        <img src="${guild.icon || 'https://cdn.discordapp.com/embed/avatars/0.png'}" 
+                             alt="${guild.name}" 
+                             class="guild-icon">
+                        <div>
+                            <div class="guild-name">${guild.name}</div>
+                            <div class="guild-members">${guild.memberCount} membres</div>
+                            ${
+                                guild.owner
+                                    ? `<div class="guild-owner" style="display: flex; align-items: center; margin-top: 5px; font-size: 0.9em; color: #b9bbbe;">
+                                    <img src="${guild.owner.avatar}" alt="${guild.owner.username}" style="width: 20px; height: 20px; border-radius: 50%; margin-right: 5px; object-fit: cover;">
+                                    Propriétaire: ${guild.owner.username}${guild.owner.discriminator !== '0' ? '#' + guild.owner.discriminator : ''}
+                                </div>`
+                                    : ''
+                            }
+                        </div>
+                    `;
+
+                            fragment.appendChild(card);
+                        }
+
+                        grid.appendChild(fragment);
+
+                        if (endIndex < allGuilds.length) {
+                            setTimeout(() => displayBatch(endIndex), 100);
+                        }
+                    };
+
+                    displayBatch(0);
+                } catch (err) {
+                    console.error('Erreur lors du chargement des serveurs:', err);
+                    grid.innerHTML = '<div class="no-results">Erreur lors du chargement des serveurs</div>';
+                }
+            }
+
+            async function showGuildDetails(guildId, guildName) {
+                currentGuildId = guildId;
+                const modalTitle = document.getElementById('modalTitle');
+                modalTitle.textContent = guildName;
+                modal.style.display = 'block';
+                setTimeout(() => {
+                    modal.classList.add('show');
+                }, 10);
+
+                const memberCount = document.getElementById('memberCount');
+                const creationDate = document.getElementById('creationDate');
+                const botJoinDate = document.getElementById('botJoinDate');
+
+                try {
+                    const response = await fetch(`/api/guilds/${guildId}/channels`);
+                    const channels = await response.json();
+
+                    const guild = allGuilds.find((g) => g.id === guildId);
+                    if (guild) {
+                        memberCount.textContent = `${guild.memberCount} membres`;
+
+                        const createdAt = new Date(parseInt(guild.id) / 4194304 + 1420070400000);
+                        creationDate.textContent = `Créé le ${createdAt.toLocaleDateString('fr-FR', {
+                            day: 'numeric',
+                            month: 'long',
+                            year: 'numeric',
+                        })}`;
+
+                        // TODO
+                        botJoinDate.textContent = `Bot présent depuis le ---`;
+                    }
+
+                    const channelsList = document.getElementById('channelsList');
+                    channelsList.innerHTML = '';
+
+                    const BATCH_SIZE = 20;
+                    const ANIMATION_DELAY = 0.02;
+
+                    const displayBatch = (startIndex) => {
+                        const endIndex = Math.min(startIndex + BATCH_SIZE, channels.length);
+                        const fragment = document.createDocumentFragment();
+
+                        for (let i = startIndex; i < endIndex; i++) {
+                            const channel = channels[i];
+                            const listItem = document.createElement('li');
+                            listItem.innerHTML = `${channel.typeSVG} ${channel.name} <span>${channel.typeLabel}</span>`;
+                            listItem.style.animationDelay = `${(i % BATCH_SIZE) * ANIMATION_DELAY}s`;
+                            fragment.appendChild(listItem);
+                        }
+
+                        channelsList.appendChild(fragment);
+
+                        if (endIndex < channels.length) {
+                            setTimeout(() => displayBatch(endIndex), 50);
+                        }
+                    };
+
+                    displayBatch(0);
+                } catch (err) {
+                    console.error('Erreur lors du chargement des salons:', err);
+                    channelsList.innerHTML = '<div class="no-results">Erreur lors du chargement des salons</div>';
+                }
+            }
+
+            async function leaveGuild() {
+                if (!currentGuildId) return;
+
+                if (!confirm('Êtes-vous sûr de vouloir quitter ce serveur ?')) return;
+
+                showLoading();
+                try {
+                    const response = await fetch(`/api/guilds/${currentGuildId}/leave`, {
+                        method: 'POST',
+                    });
+                    const data = await response.json();
+
+                    if (data.success) {
+                        modal.style.display = 'none';
+                        loadGuilds();
+                    } else {
+                        alert('Impossible de quitter le serveur');
+                    }
+                } catch (err) {
+                    console.error('Erreur lors de la sortie du serveur:', err);
+                    alert('Erreur lors de la sortie du serveur');
+                } finally {
+                    hideLoading();
+                }
+            }
+
+            async function fetchBotStats() {
+                const statsDiv = document.getElementById('bot-stats');
+                statsDiv.innerHTML = `
+            <div class="loading-container">
+                <div class="loading-spinner"></div>
+            </div>
+        `;
+
+                try {
+                    const response = await fetch('/api/stats');
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    const stats = await response.json();
+                    statsDiv.innerHTML = `
+                <div class="stat-card">
+                    <svg class="stat-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M9 22V12H15V22" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <div class="stat-content">
+                        <span class="stat-value">${stats.guilds || '---'}</span>
+                        <span class="stat-label">Serveurs ont ajoutés UpperCase Bot</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <svg class="stat-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M9 11C11.2091 11 13 9.20914 13 7C13 4.79086 11.2091 3 9 3C6.79086 3 5 4.79086 5 7C5 9.20914 6.79086 11 9 11Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M23 21V19C22.9993 18.1137 22.7044 17.2528 22.1614 16.5523C21.6184 15.8519 20.8581 15.3516 20 15.13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M16 3.13C16.8604 3.35031 17.623 3.85071 18.1676 4.55232C18.7122 5.25392 19.0078 6.11683 19.0078 7.005C19.0078 7.89318 18.7122 8.75608 18.1676 9.45769C17.623 10.1593 16.8604 10.6597 16 10.88" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <div class="stat-content">
+                        <span class="stat-value">${stats.members || '---'}</span>
+                        <span class="stat-label">Membres profitent de meilleurs visuels</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <svg class="stat-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <div class="stat-content">
+                        <span class="stat-value">---</span>
+                        <span class="stat-label">Salons créés avec UpperCase Bot</span>
+                    </div>
+                </div>
+            `;
+                } catch (err) {
+                    statsDiv.innerHTML = '<div class="error-message">Erreur lors du chargement des statistiques.</div>';
+                }
+            }
+
+            async function logout() {
+                showLoading();
+                try {
+                    const response = await fetch('/api/auth/logout', {
+                        method: 'POST',
+                    });
+                    const data = await response.json();
+
+                    if (data.success) {
+                        window.location.href = '/login.html';
+                    } else {
+                        alert('Erreur lors de la déconnexion');
+                    }
+                } catch (err) {
+                    console.error('Erreur lors de la déconnexion:', err);
+                    alert('Erreur lors de la déconnexion');
+                } finally {
+                    hideLoading();
+                }
+            }
+
+            loadGuilds();
+            fetchBotStats();
+
+            const searchInput = document.getElementById('searchInput');
+            const clearSearch = document.getElementById('clearSearch');
+            let allGuilds = [];
+
+            searchInput.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                clearSearch.style.display = searchTerm ? 'flex' : 'none';
+                const grid = document.getElementById('guildsGrid');
+                grid.innerHTML = '';
+
+                const filteredGuilds = allGuilds.filter((guild) => guild.name.toLowerCase().includes(searchTerm));
+
+                if (filteredGuilds.length === 0) {
+                    grid.innerHTML = '<div class="no-results">Aucun serveur trouvé</div>';
+                    return;
+                }
+
+                filteredGuilds.forEach((guild) => {
+                    const card = document.createElement('div');
+                    card.className = 'guild-card';
+                    card.onclick = () => showGuildDetails(guild.id, guild.name);
+
+                    card.innerHTML = `
+                <img src="${guild.icon || 'https://cdn.discordapp.com/embed/avatars/0.png'}" 
+                     alt="${guild.name}" 
+                     class="guild-icon">
+                <div>
+                    <div class="guild-name">${guild.name}</div>
+                    <div class="guild-members">${guild.memberCount} membres</div>
+                    ${
+                        guild.owner
+                            ? `<div class="guild-owner" style="display: flex; align-items: center; margin-top: 5px; font-size: 0.9em; color: #b9bbbe;">
+                            <img src="${guild.owner.avatar}" alt="${guild.owner.username}" style="width: 20px; height: 20px; border-radius: 50%; margin-right: 5px; object-fit: cover;">
+                            Propriétaire: ${guild.owner.username}${guild.owner.discriminator !== '0' ? '#' + guild.owner.discriminator : ''}
+                        </div>`
+                            : ''
+                    }
+                </div>
+            `;
+
+                    grid.appendChild(card);
+                });
+            });
+
+            clearSearch.addEventListener('click', () => {
+                searchInput.value = '';
+                clearSearch.style.display = 'none';
+                searchInput.dispatchEvent(new Event('input'));
+            });
+        </script>
+        <div class="footer-watermark">Nevylish</div>
+        <div class="copyright">
+            © <span id="currentYear"></span> UpperCase Bot — Tous droits réservés.
+            <p style="color: #be3d3d">Contenu confidentiel. Toute divulgation non autorisée est interdite.</p>
+        </div>
+        <script>
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+        </script>
+    </body>
+</html>
+<!-- Go to src/base/Dashboard.ts to see contexts of api paths -->
