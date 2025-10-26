@@ -63,7 +63,7 @@ export namespace About {
                 ),
             new ButtonBuilder()
                 .setStyle(ButtonStyle.Link)
-                .setLabel('Vote on Top.gg (please)')
+                .setLabel('Vote on Top.gg (please <3)')
                 .setEmoji('❤️')
                 .setURL('https://top.gg/bot/' + Constants.ApplicationInformations.topgg_id + '/vote'),
         );
