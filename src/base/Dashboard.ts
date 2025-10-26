@@ -28,13 +28,6 @@ import { existsSync } from 'fs';
 import { Constants } from '../utils/constants';
 import { Functions } from '../utils/functions';
 
-/**
- * ''''''''If you want to see a live example of the Dashboard you can click on the url below.''''''''
- * '''I'll make a better version later with fake guilds to see the full range of possible actions.'''
- *                          ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
- *                          https://uppercasebot-live-example.netlify.app/
- */
-
 export class Dashboard {
     private app: express.Application;
     private manager: ShardingManager;
@@ -165,7 +158,6 @@ export class Dashboard {
                 [
                     '/login',
                     '/api/auth/login',
-                    /* '/api/stats', c'était une bonne idée mais pas envie d'exposer le nom de domaine */
                     '/login.html',
                     '/style.css',
                     '/ABCGintoNormalVariable.woff2',
@@ -208,7 +200,7 @@ export class Dashboard {
             const { username, password } = req.body;
 
             if (!username || !password) {
-                return res.status(400).json({ error: "Nom d'utilisateur et mot de passe requis" });
+                return res.status(400).json({ error: "Username & Password required" });
             }
 
             const validUser = config.dashboardUsername;
@@ -224,14 +216,14 @@ export class Dashboard {
                 res.json({ success: true });
             } else {
                 this.recordFailedAttempt(ip);
-                res.status(401).json({ error: "Nom d'utilisateur ou mot de passe incorrect" });
+                res.status(401).json({ error: "Username or password incorrect" });
             }
         });
 
         this.app.post('/api/auth/logout', (req, res) => {
             req.session.destroy((err) => {
                 if (err) {
-                    return res.status(500).json({ error: 'Erreur lors de la déconnexion' });
+                    return res.status(500).json({ error: 'Failed to log out.' });
                 }
                 res.json({ success: true });
             });
@@ -301,19 +293,19 @@ export class Dashboard {
                         if (!guild) return null;
 
                         const CHANNEL_TYPES = {
-                            0: 'Texte',
-                            1: 'Message privé',
-                            2: 'Vocal',
-                            3: 'Groupe de messages privés',
-                            4: 'Catégorie',
-                            5: 'Annonces',
-                            10: "Fil d'annonce",
-                            11: 'Fil public',
-                            12: 'Fil privé',
-                            13: 'Conférence',
-                            14: 'Annuaire de serveur',
+                            0: 'Text',
+                            1: 'Private Message',
+                            2: 'Voice',
+                            3: 'Group DM',
+                            4: 'Category',
+                            5: 'Announcements',
+                            10: 'Announcement Thread',
+                            11: 'Public Thread',
+                            12: 'Private Thread',
+                            13: 'Stage Channel',
+                            14: 'Guild Directory',
                             15: 'Forum',
-                            16: 'Média',
+                            16: 'Media',
                         };
 
                         const getChannelTypeLabel = (type: number): string => {
