@@ -21,6 +21,7 @@ import UppercaseClient from './UppercaseClient';
 import Command from './Command';
 import {
     AutocompleteInteraction,
+    Colors,
     CommandInteraction,
     EmbedBuilder,
     Events,
@@ -59,7 +60,7 @@ export namespace Handlers {
 
                     const owner = await guild.fetchOwner();
                     const embed = new EmbedBuilder()
-                        .setColor(Constants.Colors.GREEN)
+                        .setColor(Colors.Green)
                         .setAuthor({ name: `${guild.name}` })
                         .setDescription(
                             `\n\n👥\u1CBCMembers: ${Functions.formatNumber(guild.memberCount)}` +
@@ -180,8 +181,10 @@ export namespace Handlers {
         const cmd = client.commands.get(commandName);
 
         if (!cmd) {
+            const embed = Functions.buildEmbed('This command does not exist or has been deleted.', 'Error');
             return interaction.reply({
-                embeds: [Functions.buildErrorEmbed('This command does not exist or has been deleted.')],
+                embeds: [embed],
+                components: [Functions.buildButtons()],
                 flags: [MessageFlags.Ephemeral],
             });
         }
@@ -189,12 +192,12 @@ export namespace Handlers {
         try {
             await cmd.onExecute(interaction);
         } catch (err) {
-            const embed = Functions.buildErrorEmbed(err.message);
+            const embed = Functions.buildEmbed(err.message, 'Error');
 
             if (interaction.deferred) {
-                await interaction.editReply({ embeds: [embed] });
+                await interaction.editReply({ embeds: [embed], components: [Functions.buildButtons()] });
             } else {
-                await interaction.reply({ embeds: [embed], flags: [MessageFlags.Ephemeral] });
+                await interaction.reply({ embeds: [embed], components: [Functions.buildButtons()], flags: [MessageFlags.Ephemeral] });
             }
 
             Logger.error('Handlers', err, {

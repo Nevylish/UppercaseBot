@@ -21,8 +21,7 @@ import {
     AutocompleteInteraction,
     CategoryChannelResolvable,
     ChannelType,
-    CommandInteraction,
-    EmbedBuilder,
+    ChatInputCommandInteraction,
     GuildChannel,
     GuildMember,
     MessageFlags,
@@ -183,7 +182,7 @@ export default class CreateChannelCommand extends Command {
         }
     }
 
-    async onExecute(interaction: CommandInteraction): Promise<void> {
+    async onExecute(interaction: ChatInputCommandInteraction): Promise<void> {
         const channel_name = interaction.options.get('channel_name')?.value as string;
         let channel_type = interaction.options.get('channel_type')?.value as string | number;
         const category_id = interaction.options.get('category')?.value as string;
@@ -195,7 +194,7 @@ export default class CreateChannelCommand extends Command {
 
         if (!interaction.guild.members.me.permissions.has([PermissionsBitField.Flags.ManageChannels])) {
             throw new InsufficientPermissions(
-                '**I don\'t have the necessary permissions to rename a channel.**\n\nPlease check that I have the **"Manage channels"** permission.',
+                '**I don\'t have the necessary permissions to create a channel.**\n\nPlease check that I have the **"Manage channels"** permission.',
             );
         }
 
@@ -214,21 +213,21 @@ export default class CreateChannelCommand extends Command {
             })) as GuildChannel;
 
             const channelUrl = `https://discord.com/channels/${interaction.guild.id}/${channel.id}`;
-            const embed = new EmbedBuilder()
-                .setColor(Constants.Colors.GREEN)
-                .setDescription(
-                    `🎉 Channel created ➜ [Go to channel](${channelUrl}) <#${channel.id}>\n\nYou can move the channel wherever you want, even rename it, change permissions, type, etc...`,
-                );
+            const embed = Functions.buildEmbed(
+                `🎉 Channel created ➜ [**Go to channel**](${channelUrl}) <#${channel.id}>\n\nYou can move the channel wherever you want, even rename it, change permissions, type, etc...`,
+                'Good',
+            );
 
             await interaction.editReply({
                 embeds: [embed],
-                components: [Functions.spawnVoteTopGGButton(interaction)],
+                components: [Functions.buildButtons(channelUrl)],
             });
         } catch (err) {
             Logger.error('CreateChannelCommand', '(onExecute)', err);
-
+            const embed = Functions.buildEmbed(`**${err.message}**`, 'Error');
             await interaction.editReply({
-                embeds: [Functions.buildErrorEmbed(`Error while creating channel: **${err.message}**`)],
+                embeds: [embed],
+                components: [Functions.buildButtons()],
             });
         }
     }

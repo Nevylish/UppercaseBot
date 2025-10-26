@@ -16,8 +16,8 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, CommandInteraction, EmbedBuilder } from 'discord.js';
-import { Constants } from './constants';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ColorResolvable, EmbedBuilder } from 'discord.js';
+import { version } from '../../package.json';
 
 export namespace Functions {
     const ALTERNATIVE_UPPERCASE = [
@@ -63,24 +63,67 @@ export namespace Functions {
             .join('');
     };
 
-    export const buildErrorEmbed = (msg: string): EmbedBuilder => {
-        return new EmbedBuilder()
-            .setColor(Constants.Colors.ERROR)
-            .setDescription(
-                `❗• ${msg}\n\nTo try to fix a lot of errors, give me "Administrator" permission and rerun the command.`,
-            );
+    const addCopyrightFooter = (embed: EmbedBuilder): void => {
+        embed.setFooter({ text: `© 2025 UpperCase Bot — All rights reserved. | Build v${version}` });
     };
 
-    export const spawnVoteTopGGButton = (
-        /* interaction used for locales */ interaction: CommandInteraction,
-    ): ActionRowBuilder<ButtonBuilder> => {
+    export const buildEmbed = (
+        description: string,
+        color: 'Error' | 'Alert' | 'Good' | ColorResolvable,
+    ): EmbedBuilder => {
+        description =
+            (color === 'Error' ? '**Error:** ' : '') +
+            (color === 'Alert' ? '**Alert:** ' : '') +
+            description +
+            (color === 'Error'
+                ? '\n\n**Protip:** To try to fix a lot of errors, give me "Administrator" permission and rerun the command.'
+                : '') +
+            `\n\n[**Add UpperCase Bot**](https://discord.com/oauth2/authorize?client_id=1072283043739467807&permissions=19472&scope=bot%20applications.commands)᲼•᲼[**Vote on Top.gg (please <3)**](https://top.gg/bot/1072283043739467807/vote)᲼•᲼[**Source Code**](https://github.com/Nevylish/UppercaseBot)`;
+
+        switch (color) {
+            case 'Error':
+                color = 0xff614d;
+                break;
+            case 'Alert':
+                color = 0xffa94d;
+                break;
+            case 'Good':
+                color = 0x75ff7a;
+                break;
+        }
+
+        const embed = new EmbedBuilder().setDescription(description).setColor(color as ColorResolvable);
+
+        addCopyrightFooter(embed);
+        return embed;
+    };
+
+    export const buildChannelButton = (url: string): ActionRowBuilder<ButtonBuilder> => {
         return new ActionRowBuilder<any>().addComponents(
+            new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel('Go to channel').setURL(url),
+        );
+    };
+
+    export const buildButtons = (url?: string): ActionRowBuilder<ButtonBuilder> => {
+        const row = new ActionRowBuilder<ButtonBuilder>();
+
+        const buttons: ButtonBuilder[] = [];
+
+        if (url) {
+            buttons.push(new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel('Go to channel').setEmoji('#️⃣').setURL(url));
+        }
+
+        buttons.push(
             new ButtonBuilder()
                 .setStyle(ButtonStyle.Link)
                 .setLabel('Vote on Top.gg (please <3)')
-                .setEmoji('<:topgg:1093959259890389092>')
+                .setEmoji('❤️')
                 .setURL('https://top.gg/bot/1072283043739467807/vote'),
         );
+
+        row.addComponents(...buttons);
+
+        return row;
     };
 
     export const formatNumber = (num: number): string => {

@@ -18,8 +18,7 @@
 
 import {
     ApplicationCommandOptionType,
-    CommandInteraction,
-    EmbedBuilder,
+    ChatInputCommandInteraction,
     GuildChannel,
     GuildMember,
     MessageFlags,
@@ -30,7 +29,6 @@ import UppercaseClient from '../base/UppercaseClient';
 import { Functions } from '../utils/functions';
 import { Member } from '../utils/member';
 import InsufficientPermissions from '../exception/InsufficientPermissions';
-import { Constants } from '../utils/constants';
 import { Logger } from '../utils/logger';
 
 export default class RenameChannelCommand extends Command {
@@ -118,7 +116,7 @@ export default class RenameChannelCommand extends Command {
         });
     }
 
-    async onExecute(interaction: CommandInteraction): Promise<void> {
+    async onExecute(interaction: ChatInputCommandInteraction): Promise<void> {
         const channel_selected = interaction.options.get('channel')?.channel as GuildChannel;
         const channel_name = interaction.options.get('new_name')?.value as string;
 
@@ -141,18 +139,21 @@ export default class RenameChannelCommand extends Command {
             });
 
             const channelUrl = `https://discord.com/channels/${interaction.guild.id}/${channel.id}`;
-            const embed = new EmbedBuilder()
-                .setColor(Constants.Colors.GREEN)
-                .setDescription(`🎉 Channel renamed ➜ [Go to channel](${channelUrl}) <#${channel.id}>.`);
+            const embed = Functions.buildEmbed(
+                `🎉 Channel renamed ➜ [**Go to channel**](${channelUrl}) <#${channel.id}>.`,
+                'Good',
+            );
 
             await interaction.editReply({
                 embeds: [embed],
-                components: [Functions.spawnVoteTopGGButton(interaction)],
+                components: [Functions.buildButtons()],
             });
         } catch (err) {
             Logger.error('RenameChannelCommand', '(onExecute)', err);
+            const embed = Functions.buildEmbed(`Failed to rename channel: **${err.message}**`, 'Error');
             await interaction.editReply({
-                embeds: [Functions.buildErrorEmbed(`Error while renaming channel: **${err.message}**`)],
+                embeds: [embed],
+                components: [Functions.buildButtons()],
             });
         }
     }
