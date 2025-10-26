@@ -146,7 +146,7 @@ export default class RenameChannelCommand extends Command {
 
             await interaction.editReply({
                 embeds: [embed],
-                components: [Functions.buildButtons()],
+                components: [Functions.buildButtons(channelUrl)],
             });
         } catch (err) {
             Logger.error('RenameChannelCommand', '(onExecute)', err);
