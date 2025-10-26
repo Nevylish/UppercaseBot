@@ -110,7 +110,9 @@ export namespace Functions {
         const buttons: ButtonBuilder[] = [];
 
         if (url) {
-            buttons.push(new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel('Go to channel').setEmoji('#️⃣').setURL(url));
+            buttons.push(
+                new ButtonBuilder().setStyle(ButtonStyle.Link).setLabel('Go to channel').setEmoji('#️⃣').setURL(url),
+            );
         }
 
         buttons.push(

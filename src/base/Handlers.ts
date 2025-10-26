@@ -197,7 +197,11 @@ export namespace Handlers {
             if (interaction.deferred) {
                 await interaction.editReply({ embeds: [embed], components: [Functions.buildButtons()] });
             } else {
-                await interaction.reply({ embeds: [embed], components: [Functions.buildButtons()], flags: [MessageFlags.Ephemeral] });
+                await interaction.reply({
+                    embeds: [embed],
+                    components: [Functions.buildButtons()],
+                    flags: [MessageFlags.Ephemeral],
+                });
             }
 
             Logger.error('Handlers', err, {

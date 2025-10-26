@@ -200,7 +200,7 @@ export class Dashboard {
             const { username, password } = req.body;
 
             if (!username || !password) {
-                return res.status(400).json({ error: "Username & Password required" });
+                return res.status(400).json({ error: 'Username & Password required' });
             }
 
             const validUser = config.dashboardUsername;
@@ -216,7 +216,7 @@ export class Dashboard {
                 res.json({ success: true });
             } else {
                 this.recordFailedAttempt(ip);
-                res.status(401).json({ error: "Username or password incorrect" });
+                res.status(401).json({ error: 'Username or password incorrect' });
             }
         });
 
