@@ -77,7 +77,7 @@ manager
             Logger.debug('SharderManager', 'Starting AutoPoster...');
             setTimeout(() => {
                 AutoPoster(config.topggToken, manager);
-            }, 30 * 1000 /* 30 seconds */);
+            }, 60 * 1000 /* 60 seconds */);
             Logger.success('SharderManager', 'AutoPoster started !');
         }
         manager
