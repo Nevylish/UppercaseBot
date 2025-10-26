@@ -134,28 +134,26 @@ export default class RenameChannelCommand extends Command {
 
         await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
 
-        channel_selected
-            .edit({
+        try {
+            const channel = await channel_selected.edit({
                 name: Functions.alternativeUppercaseAlgorithm(channel_name),
                 reason: `@${interaction.member.user.username} used /rename-channel command`,
-            })
-            .then((channel) => {
-                const channelUrl = `https://discord.com/channels/${interaction.guild.id}/${channel.id}`;
-                const embed = new EmbedBuilder()
-                    .setColor(Constants.Colors.GREEN)
-                    .setDescription(`🎉 Channel renamed ➜ [Go to channel](${channelUrl}) <#${channel.id}>.`);
-
-                interaction.editReply({
-                    embeds: [embed],
-                    components: [Functions.spawnVoteTopGGButton(interaction)],
-                });
-            })
-            .catch((err) => {
-                Logger.error('RenameChannelCommand', '(onExecute)', err);
-                interaction.editReply({
-                    embeds: [Functions.buildErrorEmbed(`Error while renaming channel: **${err.message}**`)],
-                });
-                throw new Error(`Error while renaming channel: ` + err.message);
             });
+
+            const channelUrl = `https://discord.com/channels/${interaction.guild.id}/${channel.id}`;
+            const embed = new EmbedBuilder()
+                .setColor(Constants.Colors.GREEN)
+                .setDescription(`🎉 Channel renamed ➜ [Go to channel](${channelUrl}) <#${channel.id}>.`);
+
+            await interaction.editReply({
+                embeds: [embed],
+                components: [Functions.spawnVoteTopGGButton(interaction)],
+            });
+        } catch (err) {
+            Logger.error('RenameChannelCommand', '(onExecute)', err);
+            await interaction.editReply({
+                embeds: [Functions.buildErrorEmbed(`Error while renaming channel: **${err.message}**`)],
+            });
+        }
     }
 }

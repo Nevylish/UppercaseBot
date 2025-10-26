@@ -205,32 +205,31 @@ export default class CreateChannelCommand extends Command {
             ? (interaction.guild.channels.cache.get(category_id) as CategoryChannelResolvable)
             : (interaction.channel.parent as CategoryChannelResolvable);
 
-        interaction.guild.channels
-            .create({
+        try {
+            const channel = (await interaction.guild.channels.create({
                 name: Functions.alternativeUppercaseAlgorithm(channel_name),
                 type: Number(channel_type),
                 reason: `@${interaction.member.user.username} used /create-channel command`,
                 parent: parent,
-            })
-            .then((channel: GuildChannel) => {
-                const channelUrl = `https://discord.com/channels/${interaction.guild.id}/${channel.id}`;
-                const embed = new EmbedBuilder()
-                    .setColor(Constants.Colors.GREEN)
-                    .setDescription(
-                        `🎉 Channel created ➜ [Go to channel](${channelUrl}) <#${channel.id}>\n\nYou can move the channel wherever you want, even rename it, change permissions, type, etc...`,
-                    );
+            })) as GuildChannel;
 
-                interaction.editReply({
-                    embeds: [embed],
-                    components: [Functions.spawnVoteTopGGButton(interaction)],
-                });
-            })
-            .catch((err) => {
-                Logger.error('CreateChannelCommand', '(onExecute)', err);
-                interaction.editReply({
-                    embeds: [Functions.buildErrorEmbed(`Error while creating channel: **${err.message}**`)],
-                });
-                throw new Error(`Error while creating channel: ` + err.message);
+            const channelUrl = `https://discord.com/channels/${interaction.guild.id}/${channel.id}`;
+            const embed = new EmbedBuilder()
+                .setColor(Constants.Colors.GREEN)
+                .setDescription(
+                    `🎉 Channel created ➜ [Go to channel](${channelUrl}) <#${channel.id}>\n\nYou can move the channel wherever you want, even rename it, change permissions, type, etc...`,
+                );
+
+            await interaction.editReply({
+                embeds: [embed],
+                components: [Functions.spawnVoteTopGGButton(interaction)],
             });
+        } catch (err) {
+            Logger.error('CreateChannelCommand', '(onExecute)', err);
+
+            await interaction.editReply({
+                embeds: [Functions.buildErrorEmbed(`Error while creating channel: **${err.message}**`)],
+            });
+        }
     }
 }

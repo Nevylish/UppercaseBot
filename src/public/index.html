@@ -211,8 +211,8 @@
                     allGuilds = await response.json();
                     grid.innerHTML = '';
 
-                    const BATCH_SIZE = 50; 
-                    const ANIMATION_DELAY = 0.02; 
+                    const BATCH_SIZE = 50;
+                    const ANIMATION_DELAY = 0.02;
 
                     const displayBatch = (startIndex) => {
                         const endIndex = Math.min(startIndex + BATCH_SIZE, allGuilds.length);
