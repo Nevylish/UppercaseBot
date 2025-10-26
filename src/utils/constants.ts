@@ -26,16 +26,6 @@ export namespace Constants {
         PermissionsBitField.Flags.EmbedLinks,
     ]);
 
-    export const enum Colors {
-        DEFAULT = 'White',
-        ERROR = 'Red',
-        RED = 'Red',
-        YELLOW = 'Yellow',
-        ORANGE = 'Orange',
-        GREEN = 'Green',
-        INVISIBLE = '#2f3136',
-    }
-
     export const ApplicationInformations = {
         name: 'UpperCase Bot',
         mail: 'uppercasebot@nevylish.fr',
