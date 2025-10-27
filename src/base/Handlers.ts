@@ -71,7 +71,7 @@ export namespace Handlers {
                             day: 'numeric',
                             year: 'numeric',
                         })} ${guild.createdAt.toLocaleTimeString('en-US')}`,
-                        `\n\u2005\u2005\u2005\u2005\u2005\u2005\u2005(<t:${Math.floor(guild.createdTimestamp / 1000)}:R>)`
+                        `\n\u2005\u2005\u2005\u2005\u2005\u2005\u2005(<t:${Math.floor(guild.createdTimestamp / 1000)}:R>)`,
                     ].join('');
 
                     const embed = new EmbedBuilder()
