@@ -144,9 +144,6 @@
                             <span id="botJoinDate">Chargement...</span>
                         </div>
                     </div>
-                    <div class="actions">
-                        <button class="danger" onclick="leaveGuild()">Quitter le serveur</button>
-                    </div>
                     <h3 style="margin-top: 20px">Salons:</h3>
                     <div id="channelsList">
                         <div class="loading-container">
@@ -327,32 +324,6 @@
                 }
             }
 
-            async function leaveGuild() {
-                if (!currentGuildId) return;
-
-                if (!confirm('Êtes-vous sûr de vouloir quitter ce serveur ?')) return;
-
-                showLoading();
-                try {
-                    const response = await fetch(`/api/guilds/${currentGuildId}/leave`, {
-                        method: 'POST',
-                    });
-                    const data = await response.json();
-
-                    if (data.success) {
-                        modal.style.display = 'none';
-                        loadGuilds();
-                    } else {
-                        alert('Impossible de quitter le serveur');
-                    }
-                } catch (err) {
-                    console.error('Erreur lors de la sortie du serveur:', err);
-                    alert('Erreur lors de la sortie du serveur');
-                } finally {
-                    hideLoading();
-                }
-            }
-
             async function fetchBotStats() {
                 const statsDiv = document.getElementById('bot-stats');
                 statsDiv.innerHTML = `
@@ -388,17 +359,6 @@
                     <div class="stat-content">
                         <span class="stat-value">${stats.members || '---'}</span>
                         <span class="stat-label">Membres profitent de meilleurs visuels</span>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <svg class="stat-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    <div class="stat-content">
-                        <span class="stat-value">---</span>
-                        <span class="stat-label">Salons créés avec UpperCase Bot</span>
                     </div>
                 </div>
             `;

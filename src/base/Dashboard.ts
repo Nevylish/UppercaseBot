@@ -433,13 +433,6 @@ export class Dashboard {
                 res.status(500).json({ error: 'Failed to fetch stats' });
             }
         });
-
-        this.app.post('/api/guilds/:guildId/leave', (_, res) => {
-            /**
-             * For context: This function is here to prevent malicious use of UpperCase Bot, like trying spam commands.
-             */
-            res.status(500).json({ error: 'This feature is temporarily disabled.' });
-        });
     }
 
     private start(): void {
