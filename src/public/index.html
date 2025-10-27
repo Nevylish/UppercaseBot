@@ -281,14 +281,18 @@
                         memberCount.textContent = `${guild.memberCount} membres`;
 
                         const createdAt = new Date(parseInt(guild.id) / 4194304 + 1420070400000);
-                        creationDate.textContent = `Créé le ${createdAt.toLocaleDateString('fr-FR', {
+                        creationDate.innerHTML = `Serveur créé le<br>${createdAt.toLocaleDateString('fr-FR', {
                             day: 'numeric',
                             month: 'long',
                             year: 'numeric',
-                        })}`;
+                        })} à ${createdAt.toLocaleTimeString('fr-FR')}`;
 
-                        // TODO
-                        botJoinDate.textContent = `Bot présent depuis le ---`;
+                        const joinedDate = new Date(guild.joinedAt);
+                        botJoinDate.innerHTML = `Bot présent depuis le<br>${joinedDate.toLocaleDateString('fr-FR', {
+                            day: 'numeric',
+                            month: 'long',
+                            year: 'numeric',
+                        })} à ${joinedDate.toLocaleTimeString('fr-FR')}`;
                     }
 
                     const channelsList = document.getElementById('channelsList');

@@ -255,6 +255,7 @@ export class Dashboard {
                         name: guild.name,
                         icon: guild.iconURL({ size: 256 }),
                         memberCount: guild.memberCount,
+                        joinedAt: guild.joinedAt,
                         ownerId: guild.ownerId,
                         owner: client.users.cache.get(guild.ownerId)
                             ? {
