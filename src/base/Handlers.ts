@@ -32,7 +32,6 @@ import { Functions } from '../utils/functions';
 import CreateChannelCommand from '../commands/CreateChannelCommand';
 import RenameChannelCommand from '../commands/RenameChannelCommand';
 import { config } from '../utils/config';
-import { Constants } from '../utils/constants';
 import AboutCommand from '../commands/AboutCommand';
 import AboutContextMenuCommand from '../commands/AboutContextMenuCommand';
 
@@ -59,37 +58,36 @@ export namespace Handlers {
                     const webhook = new WebhookClient({ url: config.webhookUrl });
 
                     const owner = await guild.fetchOwner();
+                    const iconURL = guild.iconURL({ size: 256 });
+                    const ownerAvatarURL = owner.user.avatarURL({ size: 128 });
+                    const bannerURL = guild.bannerURL({ size: 2048 });
+
+                    const description = [
+                        `\n\n👥\u2005Members: ${Functions.formatNumber(guild.memberCount)}`,
+                        `\n🌍\u2005Region: ${guild.preferredLocale}`,
+                        `\n🆔\u2005Guild ID: \`${guild.id}\``,
+                        `\n📅\u2005Created at ${guild.createdAt.toLocaleDateString('en-US', {
+                            month: 'long',
+                            day: 'numeric',
+                            year: 'numeric',
+                        })} ${guild.createdAt.toLocaleTimeString('en-US')}`,
+                        `\n\u2005\u2005\u2005\u2005\u2005\u2005\u2005(<t:${Math.floor(guild.createdTimestamp / 1000)}:R>)`
+                    ].join('');
+
                     const embed = new EmbedBuilder()
                         .setColor(Colors.Green)
-                        .setAuthor({ name: `${guild.name}` })
-                        .setDescription(
-                            `\n\n👥\u1CBCMembers: ${Functions.formatNumber(guild.memberCount)}` +
-                                `\n🌍\u1CBCRegion: ${guild.preferredLocale}` +
-                                `\n🆔\u1CBCGuild ID: ${guild.id}` +
-                                `\n📅\u1CBCCreated <t:${Math.floor(guild.createdTimestamp / 1000)}:R>`,
-                        )
+                        .setAuthor({
+                            name: guild.name,
+                            iconURL: iconURL || undefined,
+                        })
+                        .setThumbnail(iconURL || undefined)
                         .setFooter({
-                            text: `${owner.user.displayName} • ${owner.user.tag} | ${owner.user.id}`,
-                        });
+                            text: `${owner.user.displayName} — ${owner.user.tag} | ${owner.user.id}`,
+                            iconURL: ownerAvatarURL || undefined,
+                        })
+                        .setDescription(description);
 
-                    const iconURL = guild.iconURL({ size: 4096 });
-                    if (iconURL) {
-                        embed.setAuthor({ name: `${guild.name}`, iconURL: iconURL });
-                        embed.setThumbnail(iconURL);
-                    }
-
-                    const ownerAvatarURL = owner.user.avatarURL({ size: 4096 });
-                    if (ownerAvatarURL) {
-                        embed.setFooter({
-                            text: `${owner.user.displayName} • ${owner.user.tag} | ${owner.user.id}`,
-                            iconURL: ownerAvatarURL,
-                        });
-                    }
-
-                    const bannerURL = guild.bannerURL({ size: 4096 });
-                    if (bannerURL) {
-                        embed.setImage(bannerURL);
-                    }
+                    if (bannerURL) embed.setImage(bannerURL);
 
                     await webhook.send({
                         username: client.user.displayName,
