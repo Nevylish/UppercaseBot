@@ -18,6 +18,7 @@
 
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ColorResolvable, EmbedBuilder } from 'discord.js';
 import { version } from '../../package.json';
+import { Constants } from './constants';
 
 export namespace Functions {
     const ALTERNATIVE_UPPERCASE = [
@@ -64,7 +65,7 @@ export namespace Functions {
     };
 
     const addCopyrightFooter = (embed: EmbedBuilder): void => {
-        embed.setFooter({ text: `© 2025 UpperCase Bot — All rights reserved. | Build v${version}` });
+        embed.setFooter({ text: `© ${new Date().getFullYear()} ${Constants.DeveloperInformations.name} — UpperCase Bot v${version}` });
     };
 
     export const buildEmbed = (
