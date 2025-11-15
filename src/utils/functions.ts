@@ -79,7 +79,7 @@ export namespace Functions {
             (color === 'Error'
                 ? '\n\n**Protip:** To try to fix a lot of errors, give me "Administrator" permission and rerun the command.'
                 : '') +
-            `\n\n[**Add UpperCase Bot**](https://discord.com/oauth2/authorize?client_id=1072283043739467807&permissions=19472&scope=bot%20applications.commands)\u2005\u2005•\u2005\u2005[**Vote on Top.gg (please <3)**](https://top.gg/bot/1072283043739467807/vote)\u2005\u2005•\u2005\u2005[**Source Code**](https://github.com/Nevylish/UppercaseBot)`;
+            `\n\n[**Add UpperCase Bot**](https://discord.com/oauth2/authorize?client_id=1072283043739467807&permissions=8&integration_type=0&scope=bot+applications.commands)\u2005\u2005•\u2005\u2005[**Vote on Top.gg (please <3)**](https://top.gg/bot/1072283043739467807/vote)\u2005\u2005•\u2005\u2005[**Source Code**](https://github.com/Nevylish/UppercaseBot)`;
 
         switch (color) {
             case 'Error':
