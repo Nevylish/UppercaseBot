@@ -8,6 +8,7 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.8+-3178C6.svg?logo=typescript)
 
 **A Discord bot that helps you create and rename channels with alternative uppercase letters**
+https://uppercasebot.nevylish.fr/
 
 </div>
 
