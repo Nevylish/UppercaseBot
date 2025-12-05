@@ -121,7 +121,7 @@ This project is licensed under the GPL-3.0 License - see the [LICENSE](LICENSE) 
 For support, please:
 
 - Open an issue on GitHub
-- Contact me at [uppercasebot@nevylish.fr](mailto:uppercasebot@nevylish.fr)
+- Contact me at [bonjour@nevylish.fr](mailto:bonjour@nevylish.fr)
 
 ---
 
