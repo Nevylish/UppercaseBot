@@ -1,0 +1,25 @@
+services:
+    bot:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: uppercase-bot
+        restart: unless-stopped
+        env_file:
+            - .env
+        environment:
+            - NODE_ENV=production
+            - ENVIRONMENT=RELEASE
+            - TOKEN=${TOKEN}
+            - TOPGG_TOKEN=${TOPGG_TOKEN}
+            - WEBHOOK_URL=${WEBHOOK_URL}
+        volumes:
+            - ./logs:/app/logs
+        deploy:
+            resources:
+                limits:
+                    cpus: '2'
+                    memory: 2G
+                reservations:
+                    cpus: '1'
+                    memory: 1G
