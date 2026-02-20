@@ -16,9 +16,6 @@
  *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-import { Logger } from '../utils/logger';
-import UppercaseClient from './UppercaseClient';
-import Command from './Command';
 import {
     AutocompleteInteraction,
     Colors,
@@ -28,12 +25,15 @@ import {
     MessageFlags,
     WebhookClient,
 } from 'discord.js';
-import { Functions } from '../utils/functions';
+import AboutCommand from '../commands/AboutCommand';
+import AboutContextMenuCommand from '../commands/AboutContextMenuCommand';
 import CreateChannelCommand from '../commands/CreateChannelCommand';
 import RenameChannelCommand from '../commands/RenameChannelCommand';
 import { config } from '../utils/config';
-import AboutCommand from '../commands/AboutCommand';
-import AboutContextMenuCommand from '../commands/AboutContextMenuCommand';
+import { Functions } from '../utils/functions';
+import { Logger } from '../utils/logger';
+import Command from './Command';
+import UppercaseClient from './UppercaseClient';
 
 export namespace Handlers {
     export const loadEventsListeners = (client: UppercaseClient) => {

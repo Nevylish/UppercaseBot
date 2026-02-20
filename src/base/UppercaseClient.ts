@@ -17,11 +17,11 @@
  */
 
 import { Client, Collection, GatewayIntentBits, Partials } from 'discord.js';
-import { Handlers } from './Handlers';
-import { Logger } from '../utils/logger';
-import Command from './Command';
 import * as dotenv from 'dotenv';
 import { resolve } from 'path';
+import { Logger } from '../utils/logger';
+import Command from './Command';
+import { Handlers } from './Handlers';
 
 export default class UppercaseClient extends Client {
     public readonly commands: Collection<string, Command> = new Collection();

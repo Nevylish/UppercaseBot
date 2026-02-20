@@ -26,10 +26,10 @@ import {
 } from 'discord.js';
 import Command from '../base/Command';
 import UppercaseClient from '../base/UppercaseClient';
-import { Functions } from '../utils/functions';
-import { Member } from '../utils/member';
 import InsufficientPermissions from '../exception/InsufficientPermissions';
+import { Functions } from '../utils/functions';
 import { Logger } from '../utils/logger';
+import { Member } from '../utils/member';
 
 export default class RenameChannelCommand extends Command {
     constructor(client: UppercaseClient) {
@@ -120,6 +120,8 @@ export default class RenameChannelCommand extends Command {
         const channel_selected = interaction.options.get('channel')?.channel as GuildChannel;
         const channel_name = interaction.options.get('new_name')?.value as string;
 
+        const isPremium = await Functions.checkPremiumStatus(this.client, interaction.guild.id, interaction.user.id);
+
         if (!Member.isStaff(interaction.member as GuildMember)) {
             throw new InsufficientPermissions('You do not have the necessary permissions to run this command.');
         }
@@ -138,12 +140,19 @@ export default class RenameChannelCommand extends Command {
                 reason: `@${interaction.member.user.username} used /rename-channel command`,
             });
 
+            const embedColor = isPremium ? '#81D8D0' : 'Good';
+            const embedEmoji = isPremium ? '💎' : '🎉';
             const channelUrl = `https://discord.com/channels/${interaction.guild.id}/${channel.id}`;
             const embed = Functions.buildEmbed(
-                `🎉 Channel renamed ➜ [**Go to channel**](${channelUrl}) <#${channel.id}>.`,
-                'Good',
+                `${embedEmoji} **Channel renamed** ➜ [**Go to channel**](${channelUrl}) <#${channel.id}>.`,
+                embedColor,
             );
 
+            if (isPremium) {
+                embed.setFooter({
+                    text: 'Thank you for supporting UpperCase Bot financially!',
+                });
+            }
             await interaction.editReply({
                 embeds: [embed],
                 components: [Functions.buildButtons(channelUrl)],

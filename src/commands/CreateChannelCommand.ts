@@ -29,11 +29,10 @@ import {
 } from 'discord.js';
 import Command from '../base/Command';
 import UppercaseClient from '../base/UppercaseClient';
-import { Member } from '../utils/member';
 import InsufficientPermissions from '../exception/InsufficientPermissions';
 import { Functions } from '../utils/functions';
-import { Constants } from '../utils/constants';
 import { Logger } from '../utils/logger';
+import { Member } from '../utils/member';
 
 export default class CreateChannelCommand extends Command {
     constructor(client: UppercaseClient) {
@@ -183,9 +182,11 @@ export default class CreateChannelCommand extends Command {
     }
 
     async onExecute(interaction: ChatInputCommandInteraction): Promise<void> {
-        const channel_name = interaction.options.get('channel_name')?.value as string;
+        const channel_name = interaction.options.get('channel_name', true)?.value as string;
         let channel_type = interaction.options.get('channel_type')?.value as string | number;
         const category_id = interaction.options.get('category')?.value as string;
+
+        const isPremium = await Functions.checkPremiumStatus(this.client, interaction.guild.id, interaction.user.id);
 
         if (!channel_type) channel_type = ChannelType.GuildText;
         if (!Member.isStaff(interaction.member as GuildMember)) {
@@ -212,11 +213,21 @@ export default class CreateChannelCommand extends Command {
                 parent: parent,
             })) as GuildChannel;
 
+            const embedColor = isPremium ? '#81D8D0' : 'Good';
+            const embedEmoji = isPremium ? '💎' : '🎉';
+
             const channelUrl = `https://discord.com/channels/${interaction.guild.id}/${channel.id}`;
             const embed = Functions.buildEmbed(
-                `🎉 Channel created ➜ [**Go to channel**](${channelUrl}) <#${channel.id}>\n\nYou can move the channel wherever you want, even rename it, change permissions, type, etc...`,
-                'Good',
+                `${embedEmoji}  **Channel created** ➜ [**Go to channel**](${channelUrl}) <#${channel.id}>` +
+                    `\n\nYou can move the channel wherever you want, even rename it, change permissions, type, etc...`,
+                embedColor,
             );
+
+            if (isPremium) {
+                embed.setFooter({
+                    text: 'Thank you for supporting UpperCase Bot financially!',
+                });
+            }
 
             await interaction.editReply({
                 embeds: [embed],

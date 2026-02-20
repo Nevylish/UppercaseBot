@@ -18,6 +18,7 @@
 
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ColorResolvable, EmbedBuilder } from 'discord.js';
 import { version } from '../../package.json';
+import UppercaseClient from '../base/UppercaseClient';
 import { Constants } from './constants';
 
 export namespace Functions {
@@ -65,7 +66,9 @@ export namespace Functions {
     };
 
     const addCopyrightFooter = (embed: EmbedBuilder): void => {
-        embed.setFooter({ text: `© ${new Date().getFullYear()} ${Constants.DeveloperInformations.name} — UpperCase Bot v${version}` });
+        embed.setFooter({
+            text: `© ${new Date().getFullYear()} ${Constants.DeveloperInformations.name} — UpperCase Bot v${version}`,
+        });
     };
 
     export const buildEmbed = (
@@ -78,8 +81,8 @@ export namespace Functions {
             description +
             (color === 'Error'
                 ? '\n\n**Protip:** To try to fix a lot of errors, give me "Administrator" permission and rerun the command.'
-                : '') +
-            `\n\n[**Add UpperCase Bot**](https://discord.com/oauth2/authorize?client_id=1072283043739467807&permissions=8&integration_type=0&scope=bot+applications.commands)\u2005\u2005•\u2005\u2005[**Vote on Top.gg (please <3)**](https://top.gg/bot/1072283043739467807/vote)\u2005\u2005•\u2005\u2005[**Source Code**](https://github.com/Nevylish/UppercaseBot)`;
+                : ''); // +
+        //`\n\n**[\[Add UpperCase Bot to another server](https://discord.com/oauth2/authorize?client_id=1072283043739467807&permissions=8&integration_type=0&scope=bot+applications.commands)]**`;
 
         switch (color) {
             case 'Error':
@@ -95,7 +98,7 @@ export namespace Functions {
 
         const embed = new EmbedBuilder().setDescription(description).setColor(color as ColorResolvable);
 
-        addCopyrightFooter(embed);
+        // addCopyrightFooter(embed);
         return embed;
     };
 
@@ -105,7 +108,7 @@ export namespace Functions {
         );
     };
 
-    export const buildButtons = (url?: string): ActionRowBuilder<ButtonBuilder> => {
+    export const buildButtons = (url?: string, isPremium?: boolean): ActionRowBuilder<ButtonBuilder> => {
         const row = new ActionRowBuilder<ButtonBuilder>();
 
         const buttons: ButtonBuilder[] = [];
@@ -124,6 +127,12 @@ export namespace Functions {
                 .setURL('https://top.gg/bot/1072283043739467807/vote'),
         );
 
+        if (!isPremium) {
+            try {
+                buttons.push(new ButtonBuilder().setStyle(ButtonStyle.Premium).setSKUId(process.env.PREMIUM_SKU_ID));
+            } catch {}
+        }
+
         row.addComponents(...buttons);
 
         return row;
@@ -131,5 +140,45 @@ export namespace Functions {
 
     export const formatNumber = (num: number): string => {
         return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    };
+
+    export const checkPremiumStatus = async (
+        client: UppercaseClient,
+        guildId: string,
+        userId: string,
+    ): Promise<boolean> => {
+        let entitlementsList = [];
+
+        await client.application.entitlements
+            .fetch({
+                guild: guildId,
+            })
+            .then((entitlements) => {
+                entitlementsList.push(
+                    ...entitlements.filter(
+                        (entitlement) =>
+                            entitlement.deleted === false &&
+                            (entitlement.endsTimestamp ? entitlement.endsTimestamp > Date.now() : true),
+                    ),
+                );
+            });
+
+        await client.application.entitlements
+            .fetch({
+                user: userId,
+            })
+            .then((entitlements) => {
+                entitlementsList.push(
+                    ...entitlements.filter(
+                        (entitlement) =>
+                            entitlement.deleted === false &&
+                            (entitlement.endsTimestamp ? entitlement.endsTimestamp > Date.now() : true),
+                    ),
+                );
+            });
+
+        const isPremium = entitlementsList.length > 0;
+
+        return isPremium;
     };
 }
