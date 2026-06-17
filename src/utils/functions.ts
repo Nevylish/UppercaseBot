@@ -20,8 +20,13 @@ import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ColorResolvable, EmbedBui
 import { version } from '../../package.json';
 import UppercaseClient from '../base/UppercaseClient';
 import { Constants } from './constants';
+import { Logger } from './logger';
 
 export namespace Functions {
+    const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+    const guildPremiumCache = new Map<string, { isPremium: boolean; expiresAt: number }>();
+    const userPremiumCache = new Map<string, { isPremium: boolean; expiresAt: number }>();
+
     const ALTERNATIVE_UPPERCASE = [
         '𝖠',
         '𝖡',
@@ -147,38 +152,65 @@ export namespace Functions {
         guildId: string,
         userId: string,
     ): Promise<boolean> => {
-        let entitlementsList = [];
+        const now = Date.now();
 
-        await client.application.entitlements
-            .fetch({
-                guild: guildId,
-            })
-            .then((entitlements) => {
-                entitlementsList.push(
-                    ...entitlements.filter(
-                        (entitlement) =>
-                            entitlement.deleted === false &&
-                            (entitlement.endsTimestamp ? entitlement.endsTimestamp > Date.now() : true),
-                    ),
-                );
-            });
+        // Check cache first
+        const cachedGuild = guildPremiumCache.get(guildId);
+        const cachedUser = userPremiumCache.get(userId);
 
-        await client.application.entitlements
-            .fetch({
-                user: userId,
-            })
-            .then((entitlements) => {
-                entitlementsList.push(
-                    ...entitlements.filter(
-                        (entitlement) =>
-                            entitlement.deleted === false &&
-                            (entitlement.endsTimestamp ? entitlement.endsTimestamp > Date.now() : true),
-                    ),
-                );
-            });
+        let isGuildPremium = false;
+        let isUserPremium = false;
 
-        const isPremium = entitlementsList.length > 0;
+        const promises: Promise<void>[] = [];
 
-        return isPremium;
+        if (cachedGuild && cachedGuild.expiresAt > now) {
+            isGuildPremium = cachedGuild.isPremium;
+        } else {
+            promises.push(
+                client.application.entitlements
+                    .fetch({ guild: guildId })
+                    .then((entitlements) => {
+                        const active = entitlements.some(
+                            (entitlement) =>
+                                entitlement.deleted === false &&
+                                (entitlement.endsTimestamp ? entitlement.endsTimestamp > now : true),
+                        );
+                        guildPremiumCache.set(guildId, { isPremium: active, expiresAt: now + CACHE_DURATION });
+                        isGuildPremium = active;
+                    })
+                    .catch((err) => {
+                        Logger.error('Functions', 'Failed to fetch guild entitlements\n', err);
+                        isGuildPremium = false;
+                    }),
+            );
+        }
+
+        if (cachedUser && cachedUser.expiresAt > now) {
+            isUserPremium = cachedUser.isPremium;
+        } else {
+            promises.push(
+                client.application.entitlements
+                    .fetch({ user: userId })
+                    .then((entitlements) => {
+                        const active = entitlements.some(
+                            (entitlement) =>
+                                entitlement.deleted === false &&
+                                (entitlement.endsTimestamp ? entitlement.endsTimestamp > now : true),
+                        );
+                        userPremiumCache.set(userId, { isPremium: active, expiresAt: now + CACHE_DURATION });
+                        isUserPremium = active;
+                    })
+                    .catch((err) => {
+                        Logger.error('Functions', 'Failed to fetch user entitlements\n', err);
+                        isUserPremium = false;
+                    }),
+            );
+        }
+
+        if (promises.length > 0) {
+            await Promise.all(promises);
+        }
+
+        return isGuildPremium || isUserPremium;
     };
 }

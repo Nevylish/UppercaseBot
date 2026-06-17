@@ -182,6 +182,8 @@ export default class CreateChannelCommand extends Command {
     }
 
     async onExecute(interaction: ChatInputCommandInteraction): Promise<void> {
+        await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
+
         const channel_name = interaction.options.get('channel_name', true)?.value as string;
         let channel_type = interaction.options.get('channel_type')?.value as string | number;
         const category_id = interaction.options.get('category')?.value as string;
@@ -198,8 +200,6 @@ export default class CreateChannelCommand extends Command {
                 '**I don\'t have the necessary permissions to create a channel.**\n\nPlease check that I have the **"Manage channels"** permission.',
             );
         }
-
-        await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
 
         const parent = category_id
             ? (interaction.guild.channels.cache.get(category_id) as CategoryChannelResolvable)

@@ -109,10 +109,14 @@ export namespace Handlers {
         });
 
         client.on(Events.InteractionCreate, async (interaction) => {
-            if (interaction.isCommand()) {
-                await interactionCommandHandler(client, interaction);
-            } else if (interaction.isAutocomplete()) {
-                await autoCompleteHandler(client, interaction);
+            try {
+                if (interaction.isCommand()) {
+                    await interactionCommandHandler(client, interaction);
+                } else if (interaction.isAutocomplete()) {
+                    await autoCompleteHandler(client, interaction);
+                }
+            } catch (err) {
+                Logger.error('Handlers', 'Error in interaction listener\n', err);
             }
         });
 
@@ -190,23 +194,27 @@ export namespace Handlers {
         try {
             await cmd.onExecute(interaction);
         } catch (err) {
-            const embed = Functions.buildEmbed(err.message, 'Error');
-
-            if (interaction.deferred) {
-                await interaction.editReply({ embeds: [embed], components: [Functions.buildButtons()] });
-            } else {
-                await interaction.reply({
-                    embeds: [embed],
-                    components: [Functions.buildButtons()],
-                    flags: [MessageFlags.Ephemeral],
-                });
-            }
-
             Logger.error('Handlers', err, {
                 userId: user.id,
                 userTag: user.tag,
                 command: commandName,
             });
+
+            try {
+                const embed = Functions.buildEmbed(err.message, 'Error');
+
+                if (interaction.deferred || interaction.replied) {
+                    await interaction.editReply({ embeds: [embed], components: [Functions.buildButtons()] });
+                } else {
+                    await interaction.reply({
+                        embeds: [embed],
+                        components: [Functions.buildButtons()],
+                        flags: [MessageFlags.Ephemeral],
+                    });
+                }
+            } catch (replyErr) {
+                Logger.error('Handlers', 'Failed to send error reply to user\n', replyErr);
+            }
         }
     };
 }

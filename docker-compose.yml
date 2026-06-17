@@ -15,11 +15,3 @@ services:
             - WEBHOOK_URL=${WEBHOOK_URL}
         volumes:
             - ./logs:/app/logs
-        deploy:
-            resources:
-                limits:
-                    cpus: '2'
-                    memory: 2G
-                reservations:
-                    cpus: '1'
-                    memory: 1G

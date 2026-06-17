@@ -37,9 +37,20 @@ export default class UppercaseClient extends Client {
                 repliedUser: true,
             },
             partials: [Partials.Channel, Partials.User],
+            rest: {
+                rejectOnRateLimit: () => true,
+            },
         });
 
         dotenv.config({ path: resolve(__dirname, '../../.env') });
+
+        process.on('uncaughtException', (err) => {
+            Logger.error(`Shard #${this.shardId}`, 'Uncaught exception\n', err);
+        });
+
+        process.on('unhandledRejection', (err) => {
+            Logger.error(`Shard #${this.shardId}`, 'Unhandled promise rejection\n', err);
+        });
 
         const token = process.env.TOKEN;
         if (!token) {

@@ -117,6 +117,8 @@ export default class RenameChannelCommand extends Command {
     }
 
     async onExecute(interaction: ChatInputCommandInteraction): Promise<void> {
+        await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
+
         const channel_selected = interaction.options.get('channel')?.channel as GuildChannel;
         const channel_name = interaction.options.get('new_name')?.value as string;
 
@@ -131,8 +133,6 @@ export default class RenameChannelCommand extends Command {
                 '**I don\'t have the necessary permissions to rename a channel.**\n\nPlease check that I have the **"Manage channels"** permission.',
             );
         }
-
-        await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
 
         try {
             const channel = await channel_selected.edit({

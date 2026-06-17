@@ -41,6 +41,6 @@ export default class AboutCommand extends Command {
         const _ = About.getEmbeds(interaction, this.client);
 
         // @ts-ignore
-        interaction.editReply({ embeds: _.embeds, components: _.components });
+        await interaction.editReply({ embeds: _.embeds, components: _.components });
     }
 }

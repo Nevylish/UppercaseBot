@@ -74,9 +74,13 @@ manager
             Logger.log('SharderManager', 'Release environment');
             Logger.debug('SharderManager', 'Starting AutoPoster...');
             setTimeout(() => {
-                AutoPoster(config.topggToken, manager);
+                try {
+                    AutoPoster(config.topggToken, manager);
+                    Logger.debug('SharderManager', 'AutoPoster post');
+                } catch (err) {
+                    Logger.error('SharderManager', 'AutoPoster fail');
+                }
             }, 60 * 1000 /* 60 seconds */);
-            Logger.success('SharderManager', 'AutoPoster started !');
         }
         manager
             .broadcastEval((client) => client.user.tag)
@@ -85,7 +89,10 @@ manager
                     'ShardingManager',
                     `All shards has been started as ${Logger.COLORS.BRIGHT}${Logger.COLORS.GREEN}${tag}${Logger.COLORS.RESET}`,
                 ),
-            );
+            )
+            .catch((err) => {
+                Logger.error('ShardingManager', 'Failed to broadcast tag evaluation across shards\n', err);
+            });
     })
     .catch((err) => {
         Logger.error('ShardingManager', 'Oops, error while starting bot\n', err);
