@@ -1,6 +1,4 @@
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ColorResolvable, EmbedBuilder } from 'discord.js';
-import { version } from '../../package.json';
-import { Constants } from './constants';
 
 export namespace Functions {
     const ALTERNATIVE_UPPERCASE = [
@@ -60,11 +58,11 @@ export namespace Functions {
         return foldAlternativeUppercase(input).toLowerCase();
     };
 
-    const addCopyrightFooter = (embed: EmbedBuilder): void => {
-        embed.setFooter({
-            text: `© ${new Date().getFullYear()} ${Constants.DeveloperInformations.name} — UpperCase Bot v${version}`,
-        });
-    };
+    // const addCopyrightFooter = (embed: EmbedBuilder): void => {
+    //     embed.setFooter({
+    //         text: `© ${new Date().getFullYear()} ${Constants.DeveloperInformations.name} — UpperCase Bot v${version}`,
+    //     });
+    // };
 
     export const buildEmbed = (
         description: string,

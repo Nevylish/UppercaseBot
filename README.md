@@ -1,15 +1,8 @@
 # UppercaseBot
 
 <div align="center">
-
-![Version](https://img.shields.io/badge/version-2.1.0-blue.svg)
-![Licence](https://img.shields.io/badge/licence-GPL--3.0-green.svg)
-![Node.js](https://img.shields.io/badge/Node.js-20+-339933.svg?logo=nodedotjs)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.8+-3178C6.svg?logo=typescript)
-
 **A Discord bot that helps you create and rename channels with alternative uppercase letters**
 https://uppercasebot.nevylish.fr/
-
 </div>
 
 ## 🚀 Usage
