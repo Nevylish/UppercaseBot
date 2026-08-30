@@ -163,8 +163,6 @@ export default class RenameChannelCommand extends Command {
             return;
         }
 
-        const isPremium = await Functions.checkPremiumStatus(this.client, interaction.guild.id, interaction.user.id);
-
         if (!Member.isStaff(interaction.member as GuildMember)) {
             throw new InsufficientPermissions('You do not have the necessary permissions to run this command.');
         }
@@ -181,19 +179,12 @@ export default class RenameChannelCommand extends Command {
                 reason: `@${interaction.member.user.username} used /rename-channel command`,
             });
 
-            const embedColor = isPremium ? '#81D8D0' : 'Good';
-            const embedEmoji = isPremium ? '💎' : '🎉';
             const channelUrl = `https://discord.com/channels/${interaction.guild.id}/${channel.id}`;
             const embed = Functions.buildEmbed(
-                `${embedEmoji} **Channel renamed** ➜ [**Go to channel**](${channelUrl}) <#${channel.id}>.`,
-                embedColor,
+                `🎉 **Channel renamed** ➜ [**Go to channel**](${channelUrl}) <#${channel.id}>.`,
+                'Good',
             );
 
-            if (isPremium) {
-                embed.setFooter({
-                    text: 'Thank you for supporting UpperCase Bot financially!',
-                });
-            }
             await interaction.editReply({
                 embeds: [embed],
                 components: [Functions.buildButtons(channelUrl)],
