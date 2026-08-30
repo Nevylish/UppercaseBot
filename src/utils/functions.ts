@@ -46,15 +46,18 @@ export namespace Functions {
             .join('');
     };
 
-    export const normalizeAlternativeUppercase = (input: string): string => {
-        return Array.from(input)
+    export const foldAlternativeUppercase = (input: string): string => {
+        return Array.from(input.replace(/ +$/, ''))
             .map((char) => {
                 if (char === ' ') return '-';
                 const altIndex = ALTERNATIVE_UPPERCASE.indexOf(char);
                 return altIndex !== -1 ? String.fromCharCode(65 + altIndex) : char;
             })
-            .join('')
-            .toLowerCase();
+            .join('');
+    };
+
+    export const normalizeAlternativeUppercase = (input: string): string => {
+        return foldAlternativeUppercase(input).toLowerCase();
     };
 
     const addCopyrightFooter = (embed: EmbedBuilder): void => {

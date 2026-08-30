@@ -8,7 +8,6 @@ import {
     WebhookClient,
 } from 'discord.js';
 import AboutCommand from '../commands/AboutCommand';
-import AboutContextMenuCommand from '../commands/AboutContextMenuCommand';
 import CreateChannelCommand from '../commands/CreateChannelCommand';
 import RenameChannelCommand from '../commands/RenameChannelCommand';
 import { config } from '../utils/config';
@@ -108,7 +107,6 @@ export namespace Handlers {
     export const loadCommands = async (client: UppercaseClient) => {
         const commands: Command[] = [
             new AboutCommand(client),
-            new AboutContextMenuCommand(client),
             new CreateChannelCommand(client),
             new RenameChannelCommand(client),
         ];
