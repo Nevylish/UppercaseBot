@@ -1,5 +1,5 @@
 services:
-    bot:
+    uppercase-bot:
         build:
             context: .
             dockerfile: Dockerfile

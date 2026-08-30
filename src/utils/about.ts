@@ -8,10 +8,10 @@ import {
     ContextMenuCommandInteraction,
     EmbedBuilder,
 } from 'discord.js';
-import moment = require('moment');
-import { Functions } from './functions';
-import { Constants } from './constants';
 import UppercaseClient from '../base/UppercaseClient';
+import { Constants } from './constants';
+import { Functions } from './functions';
+import moment = require('moment');
 
 export namespace About {
     export const getEmbeds = (
@@ -50,7 +50,7 @@ export namespace About {
             )
             .setColor(Colors.Blurple)
             .setFooter({
-                text: `© ${moment().year()} ${Constants.ApplicationInformations.name} — All rights reserved.`,
+                text: `© ${moment().year()} ${Constants.ApplicationInformations.name} by ${Constants.DeveloperInformations.name} — All rights reserved.`,
             });
 
         const row = new ActionRowBuilder().addComponents(

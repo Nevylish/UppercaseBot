@@ -1,21 +1,3 @@
-/*
- * Finally, use uppercase letters for your channel names.
- * Copyright (C) 2025 UpperCase Bot by Nevylish
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see <https://www.gnu.org/licenses/>.
- */
-
 import { ActionRowBuilder, ButtonBuilder, ButtonStyle, ColorResolvable, EmbedBuilder } from 'discord.js';
 import { version } from '../../package.json';
 import { Constants } from './constants';
@@ -67,6 +49,7 @@ export namespace Functions {
     export const normalizeAlternativeUppercase = (input: string): string => {
         return Array.from(input)
             .map((char) => {
+                if (char === ' ') return '-';
                 const altIndex = ALTERNATIVE_UPPERCASE.indexOf(char);
                 return altIndex !== -1 ? String.fromCharCode(65 + altIndex) : char;
             })

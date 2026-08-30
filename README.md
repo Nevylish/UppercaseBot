@@ -121,5 +121,5 @@ For support, please:
 ---
 
 <div align="center">
-  <sub>Built with ❤️ by <a href="https://github.com/nevylish">Nevylish</a></sub>
+  <sub>© Strachamia Studios</sub>
 </div>
