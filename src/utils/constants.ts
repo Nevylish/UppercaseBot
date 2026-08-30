@@ -28,14 +28,14 @@ export namespace Constants {
 
     export const ApplicationInformations = {
         name: 'UpperCase Bot',
-        mail: 'uppercasebot@nevylish.fr',
+        mail: 'bonjour@nevylish.fr',
         website: 'https://uppercasebot.nevylish.fr',
         topgg_id: '1072283043739467807',
         creationYear: '2022',
     };
 
     export const DeveloperInformations = {
-        name: 'Nevylish',
+        name: 'Strachamia Studios',
         mail: 'bonjour@nevylish.fr',
         website: 'https://nevylish.fr',
     };

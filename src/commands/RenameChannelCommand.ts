@@ -18,8 +18,9 @@
 
 import {
     ApplicationCommandOptionType,
+    AutocompleteInteraction,
     ChatInputCommandInteraction,
-    GuildChannel,
+    GuildBasedChannel,
     GuildMember,
     MessageFlags,
     PermissionsBitField,
@@ -82,7 +83,8 @@ export default class RenameChannelCommand extends Command {
                         tr: 'Yeniden adlandırmak için kanal seçin',
                         ko: '이름을 변경할 채널을 선택하세요',
                     },
-                    type: ApplicationCommandOptionType.Channel,
+                    type: ApplicationCommandOptionType.String,
+                    autocomplete: true,
                     required: true,
                 },
                 {
@@ -116,11 +118,50 @@ export default class RenameChannelCommand extends Command {
         });
     }
 
+    async onAutocomplete(interaction: AutocompleteInteraction): Promise<void> {
+        const focusedOption = interaction.options.getFocused(true);
+
+        if (focusedOption.name !== 'channel') return;
+
+        const query = Functions.normalizeAlternativeUppercase(focusedOption.value);
+
+        const channels = interaction.guild.channels.cache
+            .filter((channel) => !channel.isThread())
+            .map((channel) => ({
+                name: channel.name.slice(0, 100),
+                value: channel.id,
+                normalized: Functions.normalizeAlternativeUppercase(channel.name),
+            }))
+            .filter((channel) => !query || channel.normalized.includes(query))
+            .sort((a, b) => {
+                const aStarts = a.normalized.startsWith(query);
+                const bStarts = b.normalized.startsWith(query);
+                if (aStarts !== bStarts) return aStarts ? -1 : 1;
+                return a.normalized.localeCompare(b.normalized);
+            })
+            .slice(0, 25);
+
+        await interaction.respond(channels.map(({ name, value }) => ({ name, value })));
+    }
+
     async onExecute(interaction: ChatInputCommandInteraction): Promise<void> {
         await interaction.deferReply({ flags: [MessageFlags.Ephemeral] });
 
-        const channel_selected = interaction.options.get('channel')?.channel as GuildChannel;
+        const channelValue = interaction.options.get('channel', true)?.value as string;
         const channel_name = interaction.options.get('new_name')?.value as string;
+
+        const channel_selected = await this.resolveChannel(interaction, channelValue);
+        if (!channel_selected) {
+            const embed = Functions.buildEmbed(
+                'Channel not found. Please pick a channel from the autocomplete list.',
+                'Error',
+            );
+            await interaction.editReply({
+                embeds: [embed],
+                components: [Functions.buildButtons()],
+            });
+            return;
+        }
 
         const isPremium = await Functions.checkPremiumStatus(this.client, interaction.guild.id, interaction.user.id);
 
@@ -165,5 +206,26 @@ export default class RenameChannelCommand extends Command {
                 components: [Functions.buildButtons()],
             });
         }
+    }
+
+    private async resolveChannel(
+        interaction: ChatInputCommandInteraction,
+        value: string,
+    ): Promise<GuildBasedChannel | null> {
+        const byId = interaction.guild.channels.cache.get(value);
+        if (byId) return byId;
+
+        if (/^\d{17,20}$/.test(value)) {
+            const fetched = await interaction.guild.channels.fetch(value).catch(() => null);
+            if (fetched) return fetched;
+        }
+
+        const normalized = Functions.normalizeAlternativeUppercase(value);
+        return (
+            interaction.guild.channels.cache.find(
+                (channel) =>
+                    !channel.isThread() && Functions.normalizeAlternativeUppercase(channel.name) === normalized,
+            ) ?? null
+        );
     }
 }

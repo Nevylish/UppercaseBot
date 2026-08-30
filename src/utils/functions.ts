@@ -70,6 +70,16 @@ export namespace Functions {
             .join('');
     };
 
+    export const normalizeAlternativeUppercase = (input: string): string => {
+        return Array.from(input)
+            .map((char) => {
+                const altIndex = ALTERNATIVE_UPPERCASE.indexOf(char);
+                return altIndex !== -1 ? String.fromCharCode(65 + altIndex) : char;
+            })
+            .join('')
+            .toLowerCase();
+    };
+
     const addCopyrightFooter = (embed: EmbedBuilder): void => {
         embed.setFooter({
             text: `© ${new Date().getFullYear()} ${Constants.DeveloperInformations.name} — UpperCase Bot v${version}`,
